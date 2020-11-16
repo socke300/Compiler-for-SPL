@@ -1,7 +1,8 @@
-type arraytype=array[4]of int;
+type arraytype=array[4] of int;
+
 proc main(){
     var array1:arraytype;
-    array1[0]:=3;
+    array1[0]:=0xF;
     array1[1]:=2;
     array1[2]:=4;
     array1[3]:=1;

@@ -14,10 +14,6 @@
           <option name="goal" value="compile" />
           <option name="projectPath" value="$PROJECT_DIR$/java/pom.xml" />
         </MavenCompilerTask>
-        <MavenCompilerTask>
-          <option name="goal" value="de.jflex:jflex-maven-plugin:1.7.0:generate" />
-          <option name="projectPath" value="$PROJECT_DIR$/java/pom.xml" />
-        </MavenCompilerTask>
       </set>
     </option>
   </component>

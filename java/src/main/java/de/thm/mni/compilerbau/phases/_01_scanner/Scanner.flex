@@ -39,7 +39,7 @@ import java_cup.runtime.*;
 \<\= {return symbol (Sym.LE);}
 \> {return symbol (Sym.GT);}
 \>\= {return symbol (Sym.GE);}
-\!\= {return symbol (Sym.NE);}
+\# {return symbol (Sym.NE);}
 \= {return symbol (Sym.EQ);}
 \+ {return symbol (Sym.PLUS);}
 \- {return symbol (Sym.MINUS);}
@@ -61,8 +61,12 @@ while {return symbol (Sym.WHILE);}
 [a-zA-Z_][a-zA-Z_0-9]* {return symbol (Sym.IDENT, yytext());}
 [0-9]+ {return symbol (Sym.INTLIT, Integer.parseInt(yytext()));}
 \'\\n\' {return symbol (Sym.INTLIT);}
-\'.\' {return symbol (Sym.INTLIT);}
-\'\0\x[a-fA-F0-9]\' {return symbol (Sym.INTLIT, Integer.parseInt(yytext()));}
-[ \t\n\r] { }
+\'.\' {return symbol (Sym.INTLIT, (int) yytext().charAt(1));}
+0x[a-fA-F0-9]+ {return symbol (Sym.INTLIT, Integer.parseInt(yytext().substring(2),16));}
+[ \t\n\r] {}
+\/\/.* {}
 
-[^]		{ throw SplError.IllegalCharacter(new Position(yyline + 1, yycolumn + 1), yytext().charAt(0)); }
+\'		{throw SplError.IllegalApostrophe(new Position(yyline + 1, yycolumn + 1)); }
+[^]		{throw SplError.IllegalCharacter(new Position(yyline + 1, yycolumn + 1), yytext().charAt(0)); }
+
+

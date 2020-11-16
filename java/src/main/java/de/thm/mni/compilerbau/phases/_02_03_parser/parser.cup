@@ -18,14 +18,23 @@ terminal LT, LE, GT, GE, NE, EQ;                               //Comparison oper
 terminal PLUS, MINUS, STAR, SLASH;                             //Arithmetic operators
 terminal ASGN, COMMA, COLON, SEMIC;                            //Other delimiters
 terminal TYPE, PROC, ARRAY, OF, REF, VAR, IF, ELSE, WHILE;     //Keywords
-
-/* Non-terminals */
 terminal Identifier IDENT;    //Identifiers
 terminal Integer INTLIT;      //Integer literals
 
+/* Non-terminals */
 non terminal Program program;
+non terminal List<GlobalDeclaration> GlobalDeclarations;
+non terminal Expression Expression;
+non terminal Statement Statement;
+non terminal Parameter Parameter;
 
 start with program;
 
-program ::= INTLIT; //TODO (assignment 2 and 3): Just a dummy, needs to be replaced by the actual spl grammar.
+program ::= GlobalDeclarations;
+WhileStmt ::= WHILE LPAREN Expression RPAREN Statement;
+IfStmt ::= IF LPAREN Expression RPAREN Statement |IF LPAREN Expression RPAREN Statement ELSE Statement;
+Proc ::= PROC LBRACK Parameter RPAREN Statement;
+Declaration ::= VAR IDENT COLON IDENT;
+Asignment ::= IDENT ASGN INTLIT;
+
 

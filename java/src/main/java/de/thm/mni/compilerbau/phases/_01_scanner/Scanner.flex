@@ -65,7 +65,7 @@ var     {return symbol(Sym.VAR);}
 \}      {return symbol(Sym.RCURL);}
 
 // IDENTS
-
+0x[0-9a-fA-F]+ {return symbol (Sym.INTLIT, Integer.parseInt(yytext().substring(2),16));}
 [a-zA-Z_][a-zA-Z_0-9]* {return symbol (Sym.IDENT, yytext());}
 
 
@@ -74,10 +74,11 @@ var     {return symbol(Sym.VAR);}
 \;       {return symbol(Sym.SEMIC);}
 \,       {return symbol(Sym.COMMA);}
 [0-9]+   {return symbol (Sym.INTLIT, Integer.parseInt(yytext()));}
-\0\x[0-9a-fA-F]+ {return symbol (Sym.INTLIT, Integer.parseInt(yytext()));}
-\'.\'    {return symbol (Sym.INTLIT);}
+\'.\'    {return symbol (Sym.INTLIT, (int) yytext().charAt(1));}
 \'\\n\'  {return symbol (Sym.INTLIT);}
 [ \t\n\r]  { }
+\/\/.*  { }
 
-
+\'		{ throw SplError.IllegalApostrophe(new Position(yyline + 1, yycolumn + 1)); }
 [^]		{ throw SplError.IllegalCharacter(new Position(yyline + 1, yycolumn + 1), yytext().charAt(0)); }
+

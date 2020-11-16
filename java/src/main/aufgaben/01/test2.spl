@@ -1,0 +1,10 @@
+proc main(){
+    var i: int;
+    var j: int;
+    var r: int;
+    i:= 0xf;
+    j:= 3;
+    r := i+j;
+    printi(r);
+    printc('\n');
+}

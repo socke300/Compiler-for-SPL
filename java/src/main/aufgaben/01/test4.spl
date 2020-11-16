@@ -1,0 +1,42 @@
+type a = array[4] of int;
+
+proc main(){
+ var arr: a;
+ var e: int;
+ arr[0] := 3;
+ arr[1] := 2;
+ arr[2] := 4;
+ arr[3] := 1;
+ sort(arr);
+ e := 0;
+ while(e<4){
+    printi(arr[e]);
+    e := e+1;
+ }
+   printc('\n');
+}
+
+proc sort(ref arr: a){
+    var i: int;
+    var count: int;
+    var x: int;
+    var y: int;
+    count :=0;
+    while(count < 3){
+        i:= 0;
+        count := 0;
+        while(i < 3){
+           if(arr[i] > arr[i+1]){
+
+               x := arr[i];
+               y := arr[i+1];
+               arr[i] := y;
+               arr[i+1] := x;
+           }
+           else{
+             count := count +1;
+           }
+           i := i+1;
+        }
+    }
+}

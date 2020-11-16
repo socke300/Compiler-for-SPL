@@ -1,0 +1,14 @@
+proc main(){
+    var i: int;
+    var j: int;
+    i:= 4;
+    j:= 3;
+    clac(i,j);
+    printc('\n');
+}
+
+proc clac(i: int, j: int){
+    var r: int;
+    r := i+j;
+    printi(r);
+}

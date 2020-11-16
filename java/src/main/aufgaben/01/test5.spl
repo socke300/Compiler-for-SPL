@@ -1,0 +1,34 @@
+proc main(){
+var n: int;
+var a: int;
+
+n := 5;
+a := 1;
+
+facu(n);
+printc('\n');
+facur(n,a);
+printc('\n');
+}
+
+
+proc facu(n: int){
+var x: int;
+x := 1;
+while(n > 1){
+    x := x * n;
+    n := n - 1;
+}
+printi(x);
+}
+
+proc facur(n:int, a: int){
+if(n>1){
+    a := a * n;
+    n := n-1;
+    facur(n,a);
+}
+else{
+printi(a);
+}
+}

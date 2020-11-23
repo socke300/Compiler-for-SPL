@@ -23,18 +23,53 @@ terminal Integer INTLIT;      //Integer literals
 
 /* Non-terminals */
 non terminal Program program;
-non terminal List<GlobalDeclaration> GlobalDeclarations;
-non terminal Expression Expression;
-non terminal Statement Statement;
-non terminal Parameter Parameter;
+non terminal List<GlobalDeclaration> globalDeclarations;
+non terminal GlobalDeclaration globalDeclaration;
+non terminal parameterList;
+non terminal parameter;
+non terminal declarationList;
+non terminal declaration;
+non terminal proc;
+non terminal type;
+non terminal statementList;
+non terminal statement;
+non terminal whileStmt;
+non terminal ifStmt;
+non terminal asignment;
+non terminal termList;
+non terminal term;
+non terminal vari;
+non terminal opperator;
+non terminal arrdec;
+non terminal comparator;
+non terminal expression;
+non terminal procCall;
+non terminal argumentList;
+non terminal argument;
 
 start with program;
 
-program ::= GlobalDeclarations;
-WhileStmt ::= WHILE LPAREN Expression RPAREN Statement;
-IfStmt ::= IF LPAREN Expression RPAREN Statement |IF LPAREN Expression RPAREN Statement ELSE Statement;
-Proc ::= PROC LBRACK Parameter RPAREN Statement;
-Declaration ::= VAR IDENT COLON IDENT;
-Asignment ::= IDENT ASGN INTLIT;
-
-
+program ::= globalDeclarations;
+globalDeclarations ::= globalDeclarations globalDeclaration | /* empty */;
+globalDeclaration ::= type | proc;
+type ::= TYPE IDENT EQ IDENT SEMIC | TYPE IDENT EQ arrdec SEMIC;
+proc ::= PROC IDENT LPAREN parameterList RPAREN LCURL declarationList statementList RCURL;
+parameterList ::= parameter | parameter COMMA parameterList | /* emtpy */;
+parameter ::= IDENT COLON IDENT | REF IDENT COLON IDENT;
+declarationList ::= declarationList declaration | /* empty */;
+declaration ::= VAR IDENT COLON IDENT SEMIC | VAR IDENT COLON arrdec SEMIC;
+statementList ::= statementList statement | /* empty */;
+statement ::= whileStmt | ifStmt | asignment | procCall;
+whileStmt ::= WHILE LPAREN expression RPAREN LCURL statementList RCURL;
+ifStmt ::= IF LPAREN expression RPAREN LCURL statementList RCURL | IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN LCURL statementList RCURL ELSE LCURL statementList RCURL;
+asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT LBRACK INTLIT RBRACK ASGN vari SEMIC | IDENT LBRACK INTLIT RBRACK ASGN termList SEMIC;
+termList ::=  term | term opperator termList | term opperator vari | LPAREN termList RPAREN ;
+term ::= vari opperator vari | MINUS vari opperator vari | vari opperator MINUS vari;
+vari ::= INTLIT | IDENT;
+arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
+opperator ::= STAR | SLASH | PLUS | MINUS;
+comparator ::= LT | LE | GT | GE | NE | EQ;
+expression ::= vari comparator vari | vari comparator termList | termList comparator vari | termList comparator termList;
+procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
+argumentList ::= argument | argument COMMA argumentList | /*empty*/;
+argument ::= vari | termList;

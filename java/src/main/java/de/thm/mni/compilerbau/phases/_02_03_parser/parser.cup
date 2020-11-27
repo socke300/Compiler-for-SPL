@@ -64,7 +64,7 @@ declarationList ::= declarationList declaration | /* empty */;
 declaration ::= VAR IDENT COLON IDENT SEMIC | VAR IDENT COLON arrdec SEMIC;
 
 statementList ::= statementList statement | /* empty */;
-statement ::= whileStmt | ifStmt | asignment | procCall;
+statement ::= whileStmt | ifStmt | asignment | procCall | SEMIC | LCURL statementList RCURL;
 
 whileStmt ::= WHILE LPAREN expression RPAREN LCURL statementList RCURL;
 ifStmt ::= IF LPAREN expression RPAREN LCURL statementList RCURL | IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN LCURL statementList RCURL ELSE LCURL statementList RCURL;
@@ -72,9 +72,9 @@ asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT arrclamp
 
 termListOrVari ::= termList | vari;
 termList ::=  term opperator termList | term | term opperator vari;
-term ::=   vari opperator vari | term opperator LPAREN termList RPAREN | vari opperator LPAREN termList RPAREN | LPAREN vari RPAREN opperator vari | vari opperator LPAREN vari RPAREN;
+term ::=   vari opperator vari | vari opperator LPAREN vari RPAREN | vari opperator LPAREN termList RPAREN | LPAREN termList RPAREN;
 opperator ::= STAR | SLASH | PLUS | MINUS;
-vari ::=  INTLIT | IDENT | MINUS INTLIT | MINUS IDENT;
+vari ::=  INTLIT | IDENT | MINUS INTLIT | MINUS IDENT | PLUS INTLIT | PLUS IDENT;
 
 arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
 arrclamp ::= LBRACK termListOrVari RBRACK | LBRACK termListOrVari RBRACK arrclamp;

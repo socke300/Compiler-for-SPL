@@ -47,6 +47,7 @@ non terminal procCall;
 non terminal argumentList;
 non terminal argument;
 non terminal arrclamp;
+non terminal termListOrVari;
 
 start with program;
 
@@ -69,16 +70,18 @@ whileStmt ::= WHILE LPAREN expression RPAREN LCURL statementList RCURL;
 ifStmt ::= IF LPAREN expression RPAREN LCURL statementList RCURL | IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN LCURL statementList RCURL ELSE LCURL statementList RCURL;
 asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT arrclamp ASGN vari SEMIC | IDENT arrclamp ASGN termList SEMIC;
 
+termListOrVari ::= termList | vari;
 termList ::=  term opperator termList | term | term opperator vari;
-term ::=   vari opperator vari | term opperator LPAREN termList RPAREN | vari opperator LPAREN termList RPAREN;
+term ::=   vari opperator vari | term opperator LPAREN termList RPAREN | vari opperator LPAREN termList RPAREN | LPAREN vari RPAREN opperator vari | vari opperator LPAREN vari RPAREN;
 opperator ::= STAR | SLASH | PLUS | MINUS;
 vari ::=  INTLIT | IDENT | MINUS INTLIT | MINUS IDENT;
 
 arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
-arrclamp ::= LBRACK vari RBRACK | LBRACK vari RBRACK arrclamp;
+arrclamp ::= LBRACK termListOrVari RBRACK | LBRACK termListOrVari RBRACK arrclamp;
 
-comparator ::= LT | LE | GT | GE | NE | EQ;
 expression ::= vari comparator vari | vari comparator termList | termList comparator vari | termList comparator termList;
+comparator ::= LT | LE | GT | GE | NE | EQ;
+
 procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
 argumentList ::= argument | argument COMMA argumentList | /*empty*/;
-argument ::= vari | termList;
+argument ::= termListOrVari | IDENT arrclamp;

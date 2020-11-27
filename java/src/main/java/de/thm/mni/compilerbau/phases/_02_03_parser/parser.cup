@@ -46,6 +46,7 @@ non terminal expression;
 non terminal procCall;
 non terminal argumentList;
 non terminal argument;
+non terminal arrclamp;
 
 start with program;
 
@@ -53,21 +54,29 @@ program ::= globalDeclarations;
 globalDeclarations ::= globalDeclarations globalDeclaration | /* empty */;
 globalDeclaration ::= type | proc;
 type ::= TYPE IDENT EQ IDENT SEMIC | TYPE IDENT EQ arrdec SEMIC;
+
 proc ::= PROC IDENT LPAREN parameterList RPAREN LCURL declarationList statementList RCURL;
 parameterList ::= parameter | parameter COMMA parameterList | /* emtpy */;
 parameter ::= IDENT COLON IDENT | REF IDENT COLON IDENT;
+
 declarationList ::= declarationList declaration | /* empty */;
 declaration ::= VAR IDENT COLON IDENT SEMIC | VAR IDENT COLON arrdec SEMIC;
+
 statementList ::= statementList statement | /* empty */;
 statement ::= whileStmt | ifStmt | asignment | procCall;
+
 whileStmt ::= WHILE LPAREN expression RPAREN LCURL statementList RCURL;
 ifStmt ::= IF LPAREN expression RPAREN LCURL statementList RCURL | IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN LCURL statementList RCURL ELSE LCURL statementList RCURL;
-asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT LBRACK INTLIT RBRACK ASGN vari SEMIC | IDENT LBRACK INTLIT RBRACK ASGN termList SEMIC;
-termList ::=  term | term opperator termList | term opperator vari | LPAREN termList RPAREN ;
-term ::= vari opperator vari | MINUS vari opperator vari | vari opperator MINUS vari;
-vari ::= INTLIT | IDENT;
-arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
+asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT arrclamp ASGN vari SEMIC | IDENT arrclamp ASGN termList SEMIC;
+
+termList ::=  term opperator termList | term | term opperator vari;
+term ::=   vari opperator vari | term opperator LPAREN termList RPAREN | vari opperator LPAREN termList RPAREN;
 opperator ::= STAR | SLASH | PLUS | MINUS;
+vari ::=  INTLIT | IDENT | MINUS INTLIT | MINUS IDENT;
+
+arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
+arrclamp ::= LBRACK vari RBRACK | LBRACK vari RBRACK arrclamp;
+
 comparator ::= LT | LE | GT | GE | NE | EQ;
 expression ::= vari comparator vari | vari comparator termList | termList comparator vari | termList comparator termList;
 procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;

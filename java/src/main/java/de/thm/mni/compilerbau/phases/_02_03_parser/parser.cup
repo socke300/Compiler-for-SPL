@@ -56,13 +56,18 @@ globalDeclarations ::= globalDeclarations globalDeclaration | /* empty */;
 globalDeclaration ::= type | proc;
 type ::= TYPE IDENT EQ IDENT SEMIC | TYPE IDENT EQ arrdec SEMIC;
 
+//Procs
 proc ::= PROC IDENT LPAREN parameterList RPAREN LCURL declarationList statementList RCURL;
 parameterList ::= parameter | parameter COMMA parameterList | /* emtpy */;
 parameter ::= IDENT COLON IDENT | REF IDENT COLON IDENT;
+procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
+argumentList ::= argument | argument COMMA argumentList | /*empty*/;
+argument ::= termListOrVari;
 
 declarationList ::= declarationList declaration | /* empty */;
 declaration ::= VAR IDENT COLON IDENT SEMIC | VAR IDENT COLON arrdec SEMIC;
 
+//Statements
 whileStmt ::= WHILE LPAREN expression RPAREN statement;
 ifStmt ::= IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN statement ELSE statement;
 asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT arrclamp ASGN vari SEMIC | IDENT arrclamp ASGN termList SEMIC;
@@ -70,18 +75,20 @@ asignment ::= IDENT ASGN vari SEMIC | IDENT ASGN termList SEMIC | IDENT arrclamp
 statementList ::= statementList statement | /* empty */;
 statement ::= whileStmt | ifStmt | asignment | procCall | SEMIC | LCURL statementList RCURL;
 
+//Terms
 termListOrVari ::= termList | vari;
 termList ::=  term opperator termList | term | term opperator vari;
 term ::=   vari opperator vari | vari opperator LPAREN vari RPAREN | vari opperator LPAREN termList RPAREN | LPAREN termList RPAREN;
 opperator ::= STAR | SLASH | PLUS | MINUS;
-vari ::=  INTLIT | IDENT | MINUS INTLIT | MINUS IDENT | IDENT arrclamp | MINUS IDENT arrclamp;
+vari ::=  INTLIT | IDENT |  IDENT arrclamp | MINUS INTLIT | MINUS IDENT | MINUS IDENT arrclamp;
 
+//Array-Stuff
 arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
 arrclamp ::= LBRACK termListOrVari RBRACK | LBRACK termListOrVari RBRACK arrclamp;
 
+//Expressions
 expression ::= vari comparator vari | vari comparator termList | termList comparator vari | termList comparator termList;
 comparator ::= LT | LE | GT | GE | NE | EQ;
 
-procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
-argumentList ::= argument | argument COMMA argumentList | /*empty*/;
-argument ::= termListOrVari;
+
+

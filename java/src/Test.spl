@@ -64,4 +64,4 @@ proc sort(ref array1:arraytype){
         }
     }
 }
-array1[0]:= ';
+

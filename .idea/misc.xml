@@ -11,7 +11,7 @@
           <option name="projectPath" value="$PROJECT_DIR$/jav/pom.xml" />
         </MavenCompilerTask>
         <MavenCompilerTask>
-          <option name="goal" value="compile" />
+          <option name="goal" value="com.github.vbmacher:cup-maven-plugin:11b-20160615:generate" />
           <option name="projectPath" value="$PROJECT_DIR$/java/pom.xml" />
         </MavenCompilerTask>
       </set>

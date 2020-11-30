@@ -18,14 +18,71 @@ terminal LT, LE, GT, GE, NE, EQ;                               //Comparison oper
 terminal PLUS, MINUS, STAR, SLASH;                             //Arithmetic operators
 terminal ASGN, COMMA, COLON, SEMIC;                            //Other delimiters
 terminal TYPE, PROC, ARRAY, OF, REF, VAR, IF, ELSE, WHILE;     //Keywords
+terminal Identifier IDENT;                                     //Identifiers
+terminal Integer INTLIT;                                       //Integer literals
 
 /* Non-terminals */
-terminal Identifier IDENT;    //Identifiers
-terminal Integer INTLIT;      //Integer literals
-
 non terminal Program program;
+non terminal List<GlobalDeclaration> globalDeclarations;
+non terminal GlobalDeclaration globalDeclaration;
+non terminal typeDeclaration;
+non terminal procDeclaration;
+non terminal parameterList;
+non terminal parameterDeclaration;
+non terminal statementList;
+non terminal statementDeclaration;
+non terminal operateDeclaration;
+non terminal assignmentDeclaration;
+non terminal arithmeticOperators;
+non terminal comparisonOperator;
+non terminal identOrIntlit;
+non terminal identOrArray;
+non terminal arrayDeclaration;
+non terminal identOrArrayindex;
+non terminal ifDeclaration;
+non terminal comparisonDeclaration;
+non terminal functioncallDeclaration;
+non terminal functioncallParameterList;
+non terminal functioncallParameter;
+non terminal varDeclaration;
+non terminal arithmeticOperatorsAndoperateDeclarationOrNot;
+non terminal arrayindexDeclaration;
+non terminal arrayindexDeclarationList;
+non terminal whileDeclaration;
 
 start with program;
+program ::= globalDeclarations;
+globalDeclarations ::= globalDeclarations globalDeclaration | ;
+globalDeclaration ::= typeDeclaration | procDeclaration;
 
-program ::= INTLIT; //TODO (assignment 2 and 3): Just a dummy, needs to be replaced by the actual spl grammar.
+//DECLARATION
+typeDeclaration ::= TYPE IDENT EQ identOrArray SEMIC;
+procDeclaration ::= PROC IDENT LPAREN parameterList RPAREN LCURL statementList RCURL;
+parameterDeclaration ::= IDENT COLON IDENT | REF IDENT COLON IDENT;
+statementDeclaration ::= assignmentDeclaration | ifDeclaration | functioncallDeclaration | varDeclaration | LCURL statementList RCURL | SEMIC | whileDeclaration;
+assignmentDeclaration ::= identOrArrayindex ASGN operateDeclaration SEMIC;
+arrayDeclaration ::= ARRAY LBRACK INTLIT RBRACK OF identOrArray;
+ifDeclaration ::= IF LPAREN comparisonDeclaration RPAREN statementDeclaration | IF LPAREN comparisonDeclaration RPAREN statementDeclaration ELSE statementDeclaration;
+comparisonDeclaration ::= operateDeclaration comparisonOperator operateDeclaration;
+functioncallDeclaration ::= IDENT LPAREN functioncallParameterList RPAREN SEMIC;
+functioncallParameter ::= operateDeclaration;
+operateDeclaration ::= identOrIntlit arithmeticOperatorsAndoperateDeclarationOrNot | arrayindexDeclaration arithmeticOperators operateDeclaration | arrayindexDeclaration | LPAREN operateDeclaration RPAREN arithmeticOperatorsAndoperateDeclarationOrNot;
+varDeclaration ::= VAR IDENT COLON identOrArray SEMIC;
+arrayindexDeclaration ::= IDENT arrayindexDeclarationList;
+whileDeclaration ::= WHILE LPAREN comparisonDeclaration RPAREN LCURL statementList RCURL;
 
+//LIST
+parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration |;
+statementList ::= statementDeclaration statementList |;
+functioncallParameterList ::= functioncallParameter COMMA functioncallParameterList| functioncallParameter |;
+arrayindexDeclarationList ::= LBRACK operateDeclaration RBRACK arrayindexDeclarationList | LBRACK operateDeclaration RBRACK;
+
+//OR
+identOrIntlit ::= INTLIT | IDENT | MINUS IDENT | MINUS INTLIT;
+identOrArray ::= IDENT | arrayDeclaration;
+identOrArrayindex ::= IDENT | arrayindexDeclaration;
+arithmeticOperatorsAndoperateDeclarationOrNot ::= arithmeticOperators operateDeclaration |;
+
+//OPERATOR
+arithmeticOperators ::= PLUS | MINUS | STAR | SLASH;
+comparisonOperator ::= LT | LE | GT | GE | NE | EQ;

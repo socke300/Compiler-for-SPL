@@ -69,4 +69,3 @@ while {return symbol (Sym.WHILE);}
 \'		{throw SplError.IllegalApostrophe(new Position(yyline + 1, yycolumn + 1)); }
 [^]		{throw SplError.IllegalCharacter(new Position(yyline + 1, yycolumn + 1), yytext().charAt(0)); }
 
-

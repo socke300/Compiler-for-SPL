@@ -34,7 +34,7 @@ type tensor = array [0x10] of matrix;
 
 // rekursive Funktion
 proc callRecursive(n : int, ref res : myInt) {
-   if (n<=10) {
+if(n<=10){
 		callRecursive(n+1, res);
 	}
 	res := res+n;

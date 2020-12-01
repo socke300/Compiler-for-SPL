@@ -30,58 +30,61 @@ non terminal procDeclaration;
 non terminal parameterList;
 non terminal parameterDeclaration;
 non terminal statementList;
-non terminal statementDeclaration;
-non terminal operateDeclaration;
-non terminal assignmentDeclaration;
+non terminal statement;
+non terminal operate;
+non terminal assignmentStatement;
 non terminal arithmeticOperators;
 non terminal comparisonOperator;
 non terminal identOrIntlit;
-non terminal identOrArray;
 non terminal arrayDeclaration;
-non terminal identOrArrayindex;
-non terminal ifDeclaration;
-non terminal comparisonDeclaration;
-non terminal functioncallDeclaration;
+non terminal ifStatement;
+non terminal comparison;
+non terminal functionStatement;
 non terminal functioncallParameterList;
-non terminal functioncallParameter;
 non terminal varDeclaration;
 non terminal arithmeticOperatorsAndoperateDeclarationOrNot;
 non terminal arrayindexDeclaration;
 non terminal arrayindexDeclarationList;
-non terminal whileDeclaration;
+non terminal whileStatement;
+non terminal typeExpression;
+non terminal variableList;
+non terminal variable;
 
+//GLOBAL
 start with program;
 program ::= globalDeclarations;
-globalDeclarations ::= globalDeclarations globalDeclaration | ;
+globalDeclarations ::= globalDeclaration globalDeclarations | ;
 globalDeclaration ::= typeDeclaration | procDeclaration;
 
 //DECLARATION
-typeDeclaration ::= TYPE IDENT EQ identOrArray SEMIC;
-procDeclaration ::= PROC IDENT LPAREN parameterList RPAREN LCURL statementList RCURL;
-parameterDeclaration ::= IDENT COLON IDENT | REF IDENT COLON IDENT;
-statementDeclaration ::= assignmentDeclaration | ifDeclaration | functioncallDeclaration | varDeclaration | LCURL statementList RCURL | SEMIC | whileDeclaration;
-assignmentDeclaration ::= identOrArrayindex ASGN operateDeclaration SEMIC;
-arrayDeclaration ::= ARRAY LBRACK INTLIT RBRACK OF identOrArray;
-ifDeclaration ::= IF LPAREN comparisonDeclaration RPAREN statementDeclaration | IF LPAREN comparisonDeclaration RPAREN statementDeclaration ELSE statementDeclaration;
-comparisonDeclaration ::= operateDeclaration comparisonOperator operateDeclaration;
-functioncallDeclaration ::= IDENT LPAREN functioncallParameterList RPAREN SEMIC;
-functioncallParameter ::= operateDeclaration;
-operateDeclaration ::= identOrIntlit arithmeticOperatorsAndoperateDeclarationOrNot | arrayindexDeclaration arithmeticOperators operateDeclaration | arrayindexDeclaration | LPAREN operateDeclaration RPAREN arithmeticOperatorsAndoperateDeclarationOrNot;
-varDeclaration ::= VAR IDENT COLON identOrArray SEMIC;
-arrayindexDeclaration ::= IDENT arrayindexDeclarationList;
-whileDeclaration ::= WHILE LPAREN comparisonDeclaration RPAREN LCURL statementList RCURL;
+typeDeclaration ::= TYPE IDENT EQ typeExpression SEMIC;
+procDeclaration ::= PROC IDENT LPAREN parameterList RPAREN LCURL variableList statementList RCURL;
+parameterDeclaration ::= IDENT COLON typeExpression | REF IDENT COLON typeExpression;
+varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
+comparison ::= operate comparisonOperator operate;
+operate ::= identOrIntlit arithmeticOperatorsAndoperateDeclarationOrNot | IDENT arrayindexDeclarationList arithmeticOperators operate | IDENT arrayindexDeclarationList | LPAREN operate RPAREN arithmeticOperatorsAndoperateDeclarationOrNot;
+variable ::= IDENT | variable LBRACK operate RBRACK;
+
+//EXPRESSION
+typeExpression ::= ARRAY LBRACK INTLIT RBRACK OF typeExpression | IDENT;
+
+//STATEMENT
+statement ::= assignmentStatement | ifStatement | functionStatement | LCURL statementList RCURL | SEMIC | whileStatement;
+assignmentStatement ::= variable ASGN operate SEMIC;
+ifStatement ::= IF LPAREN comparison RPAREN statement | IF LPAREN comparison RPAREN statement ELSE statement;
+whileStatement ::= WHILE LPAREN comparison RPAREN LCURL statementList RCURL;
+functionStatement ::= IDENT LPAREN functioncallParameterList RPAREN SEMIC;
 
 //LIST
 parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration |;
-statementList ::= statementDeclaration statementList |;
-functioncallParameterList ::= functioncallParameter COMMA functioncallParameterList| functioncallParameter |;
-arrayindexDeclarationList ::= LBRACK operateDeclaration RBRACK arrayindexDeclarationList | LBRACK operateDeclaration RBRACK;
+statementList ::= statement statementList |;
+variableList ::= varDeclaration variableList |;
+functioncallParameterList ::= operate COMMA functioncallParameterList| operate |;
+arrayindexDeclarationList ::= LBRACK operate RBRACK arrayindexDeclarationList | LBRACK operate RBRACK;
 
 //OR
 identOrIntlit ::= INTLIT | IDENT | MINUS IDENT | MINUS INTLIT;
-identOrArray ::= IDENT | arrayDeclaration;
-identOrArrayindex ::= IDENT | arrayindexDeclaration;
-arithmeticOperatorsAndoperateDeclarationOrNot ::= arithmeticOperators operateDeclaration |;
+arithmeticOperatorsAndoperateDeclarationOrNot ::= arithmeticOperators operate |;
 
 //OPERATOR
 arithmeticOperators ::= PLUS | MINUS | STAR | SLASH;

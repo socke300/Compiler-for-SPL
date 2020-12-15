@@ -25,33 +25,31 @@ terminal Integer INTLIT;                                       //Integer literal
 non terminal Program program;
 non terminal List<GlobalDeclaration> globalDeclarations;
 non terminal GlobalDeclaration globalDeclaration;
-non terminal typeDeclaration;
-non terminal procedure;
-non terminal parameterList;
-non terminal parameterDeclaration;
-non terminal statementList;
-non terminal statement;
-non terminal operate;
-non terminal assignmentStatement;
-non terminal arithmeticOperators;
-non terminal comparisonOperator;
-non terminal identOrIntlit;
-non terminal arrayDeclaration;
-non terminal ifStatement;
-non terminal functionStatement;
-non terminal functioncallParameterList;
-non terminal varDeclaration;
-non terminal operateList;
-non terminal arrayindexDeclaration;
-non terminal arrayindexDeclarationList;
-non terminal whileStatement;
-non terminal typeExpression;
-non terminal variableList;
-non terminal variable;
+non terminal TypeDeclaration typeDeclaration;
+non terminal ProcedureDeclaration procedure;
+non terminal List<ParameterDeclaration> parameterList;
+non terminal ParameterDeclaration parameterDeclaration;
+non terminal CompoundStatement statementList;
+non terminal Statement statement;
+non terminal Expression expression;
+non terminal AssignStatement assignmentStatement;
+non terminal BinaryExpression.Operator comparisonOperator; //---------------------------------
+non terminal factor; //---------------------------------
+non terminal IfStatement ifStatement;
+non terminal CallStatement functionStatement;
+non terminal argumentList; //--------------------------------- List<Expression> argumentList
+non terminal VariableDeclaration varDeclaration;
+non terminal WhileStatement whileStatement;
+non terminal TypeExpression typeExpression;
+non terminal variableList; //--------------------------------- List<Variable> variableList
+non terminal Variable variable;
+non terminal Expression addexpression;
+non terminal Expression mulExpression;
+non terminal BinaryExpression booleanExpression;
 
 //GLOBAL
 start with program;
-program ::= globalDeclarations;
+program ::= globalDeclarations {: RESULT = new Program(new Position(0,1), List.nil()); System.out.print("Test"); :};
 globalDeclarations ::= globalDeclaration globalDeclarations | ;
 globalDeclaration ::= typeDeclaration | procedure;
 
@@ -62,30 +60,33 @@ varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
 
 //EXPRESSION
 typeExpression ::= ARRAY LBRACK INTLIT RBRACK OF typeExpression | IDENT;
+booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT
 statement ::= assignmentStatement | ifStatement | functionStatement | LCURL statementList RCURL | SEMIC | whileStatement;
-assignmentStatement ::= variable ASGN operate SEMIC;
-ifStatement ::= IF LPAREN operate comparisonOperator operate RPAREN statement | IF LPAREN operate comparisonOperator operate RPAREN statement ELSE statement;
-whileStatement ::= WHILE LPAREN operate comparisonOperator operate RPAREN LCURL statementList RCURL;
-functionStatement ::= IDENT LPAREN functioncallParameterList RPAREN SEMIC;
+assignmentStatement ::= variable ASGN expression SEMIC;
+ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
+whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
+functionStatement ::= IDENT LPAREN argumentList RPAREN SEMIC;
 
 //LIST
 parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration |;
 statementList ::= statement statementList |;
 variableList ::= varDeclaration variableList |;
-functioncallParameterList ::= operate COMMA functioncallParameterList| operate |;
-arrayindexDeclarationList ::= LBRACK operate RBRACK arrayindexDeclarationList | LBRACK operate RBRACK;
-operateList ::= arithmeticOperators operate | ;
-
-//OR
-identOrIntlit ::= INTLIT | IDENT | MINUS IDENT | MINUS INTLIT;
+argumentList ::= expression COMMA argumentList| expression |;
 
 //OPERATOR
-arithmeticOperators ::= PLUS | MINUS | STAR | SLASH;
-comparisonOperator ::= LT | LE | GT | GE | NE | EQ;
+comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST :}
+                     | LE {: RESULT = BinaryExpression.Operator.LSE :}
+                     | GT {: RESULT = BinaryExpression.Operator.GRT :}
+                     | GE {: RESULT = BinaryExpression.Operator.GRE :}
+                     | NE {: RESULT = BinaryExpression.Operator.NEQ :}
+                     | EQ {: RESULT = BinaryExpression.Operator.EQU :};
 
 //OTHER
-operate ::= identOrIntlit operateList | IDENT arrayindexDeclarationList operateList | LPAREN operate RPAREN operateList;
-variable ::= IDENT | variable LBRACK operate RBRACK;
+addexpression ::= addexpression PLUS mulExpression | addexpression MINUS mulExpression | mulExpression;
+mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | factor;
+factor ::= expression | MINUS factor;
+expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
+variable ::= IDENT | variable LBRACK expression RBRACK;
 procedure ::= PROC IDENT LPAREN parameterList RPAREN LCURL variableList statementList RCURL;

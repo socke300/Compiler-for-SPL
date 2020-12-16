@@ -63,7 +63,7 @@ typeExpression ::= ARRAY:ar LBRACK INTLIT:size RBRACK OF typeExpression:base {: 
 
 //Procs
 proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList:vList statementList:sList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),name,pList, vList, sList);:};
-parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration {: RESULT = pd; :}  | ;
+parameterList ::= parameterDeclaration COMMA parameterList {: RESULT = List<pd>; :} | parameterDeclaration:pd {: RESULT = pd; :}  | ;
 parameterDeclaration ::= IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name, te, false);:}
                         | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name, te, true);:};
 

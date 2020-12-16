@@ -49,17 +49,20 @@ non terminal BinaryExpression booleanExpression;
 
 //GLOBAL
 start with program;
-program ::= globalDeclarations {: RESULT = new Program(new Position(0,1), List.nil());:};
+program ::= globalDeclarations:gd {: RESULT = new Program(new Position(gdleft,gdright), gd);:};
 globalDeclarations ::= globalDeclaration globalDeclarations | ;
-globalDeclaration ::= typeDeclaration | procedure;
+globalDeclaration ::= typeDeclaration:td {: RESULT = td;:}
+                    | procedure;
 
 //DECLARATION
-typeDeclaration ::= TYPE IDENT EQ typeExpression SEMIC;
+typeDeclaration ::= TYPE IDENT:id EQ typeExpression:ex SEMIC {: RESULT = new TypeDeclaration(new Position(exleft,exright),id ,ex); :};
 parameterDeclaration ::= IDENT COLON typeExpression | REF IDENT COLON typeExpression;
 varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
 
 //EXPRESSION
-typeExpression ::= ARRAY LBRACK INTLIT RBRACK OF typeExpression | IDENT;
+typeExpression ::= ARRAY LBRACK INTLIT RBRACK OF typeExpression
+                 | IDENT;
+
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT

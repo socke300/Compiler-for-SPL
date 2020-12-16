@@ -49,20 +49,27 @@ non terminal BinaryExpression booleanExpression;
 
 //GLOBAL
 start with program;
-program ::= globalDeclarations:gd {: RESULT = new Program(new Position(gdleft,gdright), List.nil());:};
-globalDeclarations ::= globalDeclaration:de globalDeclarations:fd {:RESULT = new List(de, fd);:} | {:RESULT = List.nil();:};
-globalDeclaration ::= typeDeclaration:td {: RESULT = td; :}
+
+
+program ::= globalDeclarations:gd {:RESULT = new Program(new Position(gdleft,gdright), gd);:};
+globalDeclarations ::= globalDeclaration:gde globalDeclarations:gds {:RESULT = new List(gde, gds); :} | {: RESULT = List.nil();:};
+
+globalDeclaration ::= typeDeclaration:td {:RESULT = td;:}
                     | procedure;
 
+typeDeclaration ::= TYPE:tp IDENT:id EQ typeExpression:ex SEMIC {:RESULT = new TypeDeclaration(new Position(tpleft,tpright),new Identifier(id), ex);:};
+
+typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex , in);:}
+                 | IDENT:id {:RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id));:};
+
+
+
+
 //DECLARATION
-typeDeclaration ::= TYPE IDENT:id EQ typeExpression:ex SEMIC {: RESULT = new TypeDeclaration(new Position(exleft,exright),new Identifier(id) ,ex); :};
 parameterDeclaration ::= IDENT COLON typeExpression | REF IDENT COLON typeExpression;
 varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
 
 //EXPRESSION
-typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {: RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex ,in); :}
-                 | IDENT:id {: RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id)); :};
-
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT

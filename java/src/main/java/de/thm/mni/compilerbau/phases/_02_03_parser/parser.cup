@@ -29,7 +29,7 @@ non terminal TypeDeclaration typeDeclaration;
 non terminal ProcedureDeclaration procedure;
 non terminal List<ParameterDeclaration> parameterList;
 non terminal ParameterDeclaration parameterDeclaration;
-non terminal CompoundStatement statementList;
+non terminal List<Statement> statementList;
 non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
@@ -41,7 +41,7 @@ non terminal List<Expression> argumentList;
 non terminal VariableDeclaration varDeclaration;
 non terminal WhileStatement whileStatement;
 non terminal TypeExpression typeExpression;
-non terminal List<Variable> variableList;
+non terminal List<VariableDeclaration> variableList;
 non terminal Variable variable;
 non terminal Expression addexpression;
 non terminal Expression mulExpression;
@@ -53,45 +53,32 @@ start with program;
 
 program ::= globalDeclarations:gd {:RESULT = new Program(new Position(gdleft,gdright), gd);:};
 globalDeclarations ::= globalDeclaration:gde globalDeclarations:gds {:RESULT = new List(gde, gds); :} | {: RESULT = List.nil();:};
-
-globalDeclaration ::= typeDeclaration:td {:RESULT = td;:}
-                    | procedure;
-
-typeDeclaration ::= TYPE:tp IDENT:id EQ typeExpression:ex SEMIC {:RESULT = new TypeDeclaration(new Position(tpleft,tpright),new Identifier(id), ex);:};
-
-typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:if(in != null) RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex , in);:}
-                 | IDENT:id {:RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id));:};
-
-
-
+globalDeclaration ::= typeDeclaration:td {:RESULT = td;:} | procedure:pr {:RESULT = pr;:};
 
 //DECLARATION
-parameterDeclaration ::= IDENT COLON typeExpression | REF IDENT COLON typeExpression;
-varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
+typeDeclaration ::= TYPE:tp IDENT:id EQ typeExpression:ex SEMIC {:RESULT = new TypeDeclaration(new Position(tpleft,tpright),new Identifier(id), ex);:};
+parameterDeclaration ::= IDENT:id COLON typeExpression:te {:RESULT = new ParameterDeclaration(new Position(idleft, idright), new Identifier(id), te, false);:} | REF IDENT:id COLON typeExpression:te {:RESULT = new ParameterDeclaration(new Position(idleft, idright), new Identifier(id), te, true);:};
+varDeclaration ::= VAR:var IDENT:id COLON typeExpression:te SEMIC {:RESULT = new VariableDeclaration(new Position(varleft, varright), new Identifier(id), te);:};
 
 //EXPRESSION
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
+typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:if(in != null) RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex , in);:} | IDENT:id {:RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id));:};
 
 //STATEMENT
-statement ::= assignmentStatement | ifStatement | functionStatement | LCURL statementList RCURL | SEMIC | whileStatement;
-assignmentStatement ::= variable ASGN addexpression SEMIC;
+statement ::= assignmentStatement:as {:RESULT = as;:} | ifStatement:is {:RESULT = is;:} | functionStatement:fs {:RESULT = fs;:}  | LCURL statementList RCURL | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:} | whileStatement:ws {:RESULT = ws;:};
+assignmentStatement ::= variable:var ASGN addexpression:ae SEMIC {:RESULT = new AssignStatement(new Position(varleft, varright), var, ae);:};
 ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
-whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
-functionStatement ::= IDENT LPAREN argumentList RPAREN SEMIC;
+whileStatement ::= WHILE:wh LPAREN booleanExpression:be RPAREN statement:st {:RESULT = new WhileStatement(new Position(whleft, whright), be, st);:};
+functionStatement ::= IDENT:id LPAREN argumentList:al RPAREN SEMIC {:RESULT = new CallStatement(new Position(idleft, idright), new Identifier(id), al);:};
 
 //LIST
-parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration |;
-statementList ::= statement statementList |;
-variableList ::= varDeclaration variableList |;
-argumentList ::= addexpression COMMA argumentList| addexpression |;
+parameterList ::= parameterDeclaration:pd COMMA parameterList:pl {:RESULT = new List(pd, pl);:} | parameterDeclaration:pd {:RESULT = new List(pd, List.nil());:} | {:RESULT = List.nil();:};
+statementList ::= statement:st statementList:sl {:RESULT = new List(st, sl);:} | {:RESULT = List.nil();:};
+variableList ::= varDeclaration:vd variableList:vl {:RESULT = new List(vd, vl);:}| {:RESULT = List.nil();:};
+argumentList ::= addexpression:ae COMMA argumentList:al {:RESULT = new List(ae, al);:}| addexpression:ae {:RESULT = new List(ae, List.nil());:} | {:RESULT = List.nil();:};
 
 //OPERATOR
-comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
-                     | LE {: RESULT = BinaryExpression.Operator.LSE; :}
-                     | GT {: RESULT = BinaryExpression.Operator.GRT; :}
-                     | GE {: RESULT = BinaryExpression.Operator.GRE; :}
-                     | NE {: RESULT = BinaryExpression.Operator.NEQ; :}
-                     | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
+comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :} | LE {: RESULT = BinaryExpression.Operator.LSE; :} | GT {: RESULT = BinaryExpression.Operator.GRT; :} | GE {: RESULT = BinaryExpression.Operator.GRE; :} | NE {: RESULT = BinaryExpression.Operator.NEQ; :} | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
 
 //OTHER
 addexpression ::= addexpression PLUS mulExpression | addexpression MINUS mulExpression | mulExpression;
@@ -99,4 +86,8 @@ mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | facto
 factor ::= expression | MINUS factor;
 expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
 variable ::= IDENT | variable LBRACK addexpression RBRACK;
-procedure ::= PROC IDENT LPAREN parameterList RPAREN LCURL variableList statementList RCURL;
+procedure ::= PROC:proc IDENT:id LPAREN parameterList:pl RPAREN LCURL variableList:vl statementList:st RCURL {:RESULT = new ProcedureDeclaration(new Position(procleft, procright), new Identifier(id), pl, vl, st);:};
+
+
+//statment vracu result für klammer auf klammer zu
+//Zeile 70 wenn false

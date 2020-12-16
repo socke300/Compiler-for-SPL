@@ -62,12 +62,16 @@ typeExpression ::= ARRAY:ar LBRACK INTLIT:size RBRACK OF typeExpression:base {: 
                  | IDENT:id {: RESULT = new NamedTypeExpression(new Position(idleft,idright), id);:};
 
 //Procs
-proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList statementList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),name,pList) ;:};
+proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList:vList statementList:sList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),name,pList, vList, sList);:};
 parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration {: RESULT = pd; :}  | ;
-parameterDeclaration ::= IDENT:name COLON typeExpression {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name:}| REF IDENT COLON typeExpression ;
+parameterDeclaration ::= IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name, te, false);:}
+                        | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name, te, true);:};
+
 procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
 
-varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
+//Variables
+variableList ::= varDeclaration:vD variableList {: RESULT = vD;:} |;
+varDeclaration ::= VAR IDENT COLON typeExpression SEMIC{: RESULT = vD;:};
 
 //EXPRESSION
 
@@ -84,7 +88,7 @@ whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
 //LIST
 
 statementList ::= statement statementList |;
-variableList ::= varDeclaration variableList |;
+
 argumentList ::= addexpression COMMA argumentList| addexpression |;
 
 //OPERATOR

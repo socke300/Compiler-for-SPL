@@ -26,22 +26,22 @@ non terminal Program program;
 non terminal List<GlobalDeclaration> globalDeclarations;
 non terminal GlobalDeclaration globalDeclaration;
 non terminal TypeDeclaration typeDeclaration;
-non terminal ProcedureDeclaration procedure;
+non terminal ProcedureDeclaration proc;
 non terminal List<ParameterDeclaration> parameterList;
 non terminal ParameterDeclaration parameterDeclaration;
 non terminal CompoundStatement statementList;
 non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
-non terminal BinaryExpression.Operator comparisonOperator; //---------------------------------
-non terminal factor; //---------------------------------
+non terminal BinaryExpression.Operator comparisonOperator;
+non terminal factor;
 non terminal IfStatement ifStatement;
-non terminal CallStatement functionStatement;
-non terminal argumentList; //--------------------------------- List<Expression> argumentList
+non terminal CallStatement procCall;
+non terminal List<Expression> argumentList
 non terminal VariableDeclaration varDeclaration;
 non terminal WhileStatement whileStatement;
 non terminal TypeExpression typeExpression;
-non terminal variableList; //--------------------------------- List<Variable> variableList
+non terminal List<Variable> variableList
 non terminal Variable variable;
 non terminal Expression addexpression;
 non terminal Expression mulExpression;
@@ -49,9 +49,10 @@ non terminal BinaryExpression booleanExpression;
 
 //GLOBAL
 start with program;
-program ::= globalDeclarations {: RESULT = new Program(new Position(0,1), List.nil()); System.out.print("Test"); :};
+program ::= globalDeclarations:gDec {: RESULT = new Program(new Position(gDec.left,gDec.right), gDec); :};
 globalDeclarations ::= globalDeclaration globalDeclarations | ;
-globalDeclaration ::= typeDeclaration | procedure;
+globalDeclaration ::= typeDeclaration | proc;
+proc ::= PROC IDENT LPAREN parameterList RPAREN LCURL variableList statementList RCURL;
 
 //DECLARATION
 typeDeclaration ::= TYPE IDENT EQ typeExpression SEMIC;
@@ -63,30 +64,30 @@ typeExpression ::= ARRAY LBRACK INTLIT RBRACK OF typeExpression | IDENT;
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT
-statement ::= assignmentStatement | ifStatement | functionStatement | LCURL statementList RCURL | SEMIC | whileStatement;
-assignmentStatement ::= variable ASGN expression SEMIC;
+statement ::= assignmentStatement | ifStatement | procCall | LCURL statementList RCURL | SEMIC | whileStatement;
+assignmentStatement ::= variable ASGN addexpression SEMIC;
 ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
 whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
-functionStatement ::= IDENT LPAREN argumentList RPAREN SEMIC;
+procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
 
 //LIST
 parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration |;
 statementList ::= statement statementList |;
 variableList ::= varDeclaration variableList |;
-argumentList ::= expression COMMA argumentList| expression |;
+argumentList ::= addexpression COMMA argumentList| addexpression |;
 
 //OPERATOR
-comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST :}
-                     | LE {: RESULT = BinaryExpression.Operator.LSE :}
-                     | GT {: RESULT = BinaryExpression.Operator.GRT :}
-                     | GE {: RESULT = BinaryExpression.Operator.GRE :}
-                     | NE {: RESULT = BinaryExpression.Operator.NEQ :}
-                     | EQ {: RESULT = BinaryExpression.Operator.EQU :};
+comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
+                     | LE {: RESULT = BinaryExpression.Operator.LSE; :}
+                     | GT {: RESULT = BinaryExpression.Operator.GRT; :}
+                     | GE {: RESULT = BinaryExpression.Operator.GRE; :}
+                     | NE {: RESULT = BinaryExpression.Operator.NEQ; :}
+                     | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
 
 //OTHER
 addexpression ::= addexpression PLUS mulExpression | addexpression MINUS mulExpression | mulExpression;
 mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | factor;
 factor ::= expression | MINUS factor;
 expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
-variable ::= IDENT | variable LBRACK expression RBRACK;
-procedure ::= PROC IDENT LPAREN parameterList RPAREN LCURL variableList statementList RCURL;
+variable ::= IDENT | variable LBRACK addexpression RBRACK;
+

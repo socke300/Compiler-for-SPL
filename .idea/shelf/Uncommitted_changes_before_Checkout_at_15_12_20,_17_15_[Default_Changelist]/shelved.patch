@@ -1,0 +1,76 @@
+Index: java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package de.thm.mni.compilerbau.phases._02_03_parser;\n\nimport java_cup.runtime.*;\nimport de.thm.mni.compilerbau.utils.*;\nimport de.thm.mni.compilerbau.absyn.*;\nimport de.thm.mni.compilerbau.table.Identifier;\nimport de.thm.mni.compilerbau.utils.SplError;\n\nparser code {:\n  public void syntax_error(Symbol currentToken) {\n    throw SplError.SyntaxError(new Position(currentToken.left, currentToken.right));\n  }\n:}\n\n/* Terminals/Tokens */\nterminal LBRACK, RBRACK, LPAREN, RPAREN, LCURL, RCURL;         //Braces, parenthesis, brackets\nterminal LT, LE, GT, GE, NE, EQ;                               //Comparison operators\nterminal PLUS, MINUS, STAR, SLASH;                             //Arithmetic operators\nterminal ASGN, COMMA, COLON, SEMIC;                            //Other delimiters\nterminal TYPE, PROC, ARRAY, OF, REF, VAR, IF, ELSE, WHILE;     //Keywords\nterminal Identifier IDENT;    //Identifiers\nterminal Integer INTLIT;      //Integer literals\n\n/* Non-terminals */\nnon terminal Program program;\nnon terminal List<GlobalDeclaration> globalDeclarations;\nnon terminal GlobalDeclaration globalDeclaration;\nnon terminal parameterList;\nnon terminal parameter;\nnon terminal declarationList;\nnon terminal declaration;\nnon terminal proc;\nnon terminal type;\nnon terminal statementList;\nnon terminal statement;\nnon terminal whileStmt;\nnon terminal ifStmt;\nnon terminal asignment;\nnon terminal termList;\nnon terminal term;\nnon terminal vari;\nnon terminal opperator;\nnon terminal arrdec;\nnon terminal comparator;\nnon terminal expression;\nnon terminal procCall;\nnon terminal argumentList;\nnon terminal argument;\nnon terminal arrclamp;\nnon terminal arrOrNot;\nnon terminal termListOrVari;\n\nstart with program;\n\nprogram ::= globalDeclarations;\nglobalDeclarations ::= globalDeclarations globalDeclaration | /* empty */;\nglobalDeclaration ::= type | proc;\ntype ::= TYPE IDENT EQ IDENT SEMIC | TYPE IDENT EQ arrdec SEMIC;\n\n//Procs\nproc ::= PROC IDENT LPAREN parameterList RPAREN LCURL declarationList statementList RCURL;\nparameterList ::= parameter | parameter COMMA parameterList | /* emtpy */;\nparameter ::= IDENT COLON IDENT | REF IDENT COLON IDENT;\nprocCall ::= IDENT LPAREN argumentList RPAREN SEMIC;\nargumentList ::= argument | argument COMMA argumentList | /*empty*/;\nargument ::= termListOrVari;\n\ndeclarationList ::= declarationList declaration | /* empty */;\ndeclaration ::= VAR IDENT COLON IDENT SEMIC | VAR IDENT COLON arrdec SEMIC;\n\n//Statements\nwhileStmt ::= WHILE LPAREN expression RPAREN statement;\nifStmt ::= IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN statement ELSE statement;\nasignment ::=  IDENT arrOrNot ASGN vari SEMIC | IDENT arrOrNot ASGN termList SEMIC;\n\nstatementList ::= statementList statement | /* empty */;\nstatement ::= whileStmt | ifStmt | asignment | procCall | SEMIC | LCURL statementList RCURL;\n\n//Terms\ntermListOrVari ::= termList | vari;\ntermList ::=  term opperator termList | term | term opperator vari;\nterm ::=  vari opperator vari | vari opperator LPAREN vari RPAREN | vari opperator LPAREN termList RPAREN | LPAREN termList RPAREN;\nopperator ::= STAR | SLASH | PLUS | MINUS;\nvari ::=  INTLIT | IDENT arrOrNot | MINUS INTLIT | MINUS IDENT arrOrNot;\n\n//Array-Stuff\narrOrNot ::= arrclamp | ;\narrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;\narrclamp ::= LBRACK termListOrVari RBRACK | LBRACK termListOrVari RBRACK arrclamp;\n\n//Expressions\nexpression ::= vari comparator vari | vari comparator termList | termList comparator vari | termList comparator termList;\ncomparator ::= LT | LE | GT | GE | NE | EQ;\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup b/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup
+--- a/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup	(revision c3b7db9bdcbe2b04def7d537a7807a5e0589b083)
++++ b/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup	(date 1608048734236)
+@@ -26,24 +26,24 @@
+ non terminal List<GlobalDeclaration> globalDeclarations;
+ non terminal GlobalDeclaration globalDeclaration;
+ non terminal parameterList;
+-non terminal parameter;
++non terminal ParameterDeclaration parameter;
+ non terminal declarationList;
+-non terminal declaration;
+-non terminal proc;
+-non terminal type;
++non terminal VariableDeclaration declaration;
++non terminal ProcedureDeclaration proc;
++non terminal TypeDeclaration type;
+ non terminal statementList;
+ non terminal statement;
+-non terminal whileStmt;
+-non terminal ifStmt;
+-non terminal asignment;
++non terminal WhileStatement whileStmt;
++non terminal IfStatement ifStmt;
++non terminal AssignStatement asignment;
+ non terminal termList;
+-non terminal term;
++non terminal BinaryExpression term;
+ non terminal vari;
+ non terminal opperator;
+ non terminal arrdec;
+ non terminal comparator;
+-non terminal expression;
+-non terminal procCall;
++non terminal Expression expression;
++non terminal CallStatement procCall;
+ non terminal argumentList;
+ non terminal argument;
+ non terminal arrclamp;
+@@ -52,7 +52,7 @@
+ 
+ start with program;
+ 
+-program ::= globalDeclarations;
++program ::= globalDeclarations {: RESULT = new Program(new Position(0,1), List.nil());:};
+ globalDeclarations ::= globalDeclarations globalDeclaration | /* empty */;
+ globalDeclaration ::= type | proc;
+ type ::= TYPE IDENT EQ IDENT SEMIC | TYPE IDENT EQ arrdec SEMIC;
+Index: java/src/main/tests/runtime_tests/2_2.spl
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/java/src/main/tests/runtime_tests/2_2.spl b/java/src/main/tests/runtime_tests/2_2.spl
+new file mode 100644
+--- /dev/null	(date 1606737010258)
++++ b/java/src/main/tests/runtime_tests/2_2.spl	(date 1606737010258)
+@@ -0,0 +1,12 @@
++type intliste = array [10] of int;
++
++proc summe(ref l: intliste, ref summe: int) {
++    var index: int;
++    index := 0;
++    summe := 0;
++    while ( index < 10) {
++        summe := summe + l[index];
++        index := index + 1;
++    }
++}
++

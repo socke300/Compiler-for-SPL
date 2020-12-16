@@ -34,7 +34,7 @@ non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
 non terminal BinaryExpression.Operator comparisonOperator;
-non terminal factor; //---------------------------------
+non terminal Expression factor; //---------------------------------
 non terminal IfStatement ifStatement;
 non terminal CallStatement functionStatement;
 non terminal List<Expression> argumentList;
@@ -67,7 +67,7 @@ typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:if(in
 //STATEMENT
 statement ::= assignmentStatement:as {:RESULT = as;:} | ifStatement:is {:RESULT = is;:} | functionStatement:fs {:RESULT = fs;:}  | LCURL statementList RCURL | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:} | whileStatement:ws {:RESULT = ws;:};
 assignmentStatement ::= variable:var ASGN addexpression:ae SEMIC {:RESULT = new AssignStatement(new Position(varleft, varright), var, ae);:};
-ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
+ifStatement ::= IF:ic LPAREN booleanExpression:be RPAREN statement:st {:RESULT = new IfStatement(new Position(icleft, icright), be, st, new EmptyStatement(Position.ERROR_POSITION));:} | IF:ic LPAREN booleanExpression:be RPAREN statement:stt ELSE statement:stf {:RESULT = new IfStatement(new Position(icleft, icright), be, stt, stf);:};
 whileStatement ::= WHILE:wh LPAREN booleanExpression:be RPAREN statement:st {:RESULT = new WhileStatement(new Position(whleft, whright), be, st);:};
 functionStatement ::= IDENT:id LPAREN argumentList:al RPAREN SEMIC {:RESULT = new CallStatement(new Position(idleft, idright), new Identifier(id), al);:};
 
@@ -81,13 +81,14 @@ argumentList ::= addexpression:ae COMMA argumentList:al {:RESULT = new List(ae, 
 comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :} | LE {: RESULT = BinaryExpression.Operator.LSE; :} | GT {: RESULT = BinaryExpression.Operator.GRT; :} | GE {: RESULT = BinaryExpression.Operator.GRE; :} | NE {: RESULT = BinaryExpression.Operator.NEQ; :} | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
 
 //OTHER
-addexpression ::= addexpression:ae PLUS:pl mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), pl, ae, me);:} | addexpression:ae MINUS:mi mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), mi, ae, me);:} | mulExpression:me {:RESULT = me;:};
-mulExpression ::= mulExpression:me STAR:st factor:fa {:RESULT = new BinaryExpression(new Position(meleft, meright), st, me, fa);:} | mulExpression:me SLASH:sl factor:fa {:RESULT = new BinaryExpression(new Position(meleft, meright), sl, me, fa);:} | factor:fa {:RESULT = fa;:};
-factor ::= expression | MINUS factor;
-expression ::= INTLIT:in {:RESULT = new IntLiteral(new Position(intleft, intright), in);:} | variable | LPAREN addexpression RPAREN;
-variable ::= IDENT | variable LBRACK addexpression RBRACK;
+addexpression ::= addexpression:ae PLUS mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), BinaryExpression.Operator.ADD, ae, me);:} | addexpression:ae MINUS mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), BinaryExpression.Operator.SUB, ae, me);:} | mulExpression:me {:RESULT = me;:};
+mulExpression ::= mulExpression:me STAR factor:fa {:RESULT = new BinaryExpression(new Position(meleft, meright), BinaryExpression.Operator.MUL, me, fa);:} | mulExpression:me SLASH factor:fa {:RESULT = new BinaryExpression(new Position(meleft, meright), BinaryExpression.Operator.DIV, me, fa);:} | factor:fa {:RESULT = fa;:};
+factor ::= expression:ex {:RESULT = ex;:} | MINUS factor {:RESULT = factor;:};
+expression ::= INTLIT:in {:RESULT = new IntLiteral(new Position(inleft, inright), in);:} | variable:va {:RESULT = new VariableExpression(new Position(valeft, varight), va);:} | LPAREN addexpression RPAREN;
+variable ::= IDENT:id {:RESULT = new NamedVariable(new Position(idleft, idright), new Identifier(id));:} | variable:va LBRACK addexpression:ae RBRACK {:RESULT = new ArrayAccess(new Position(valeft, varight), va, ae);:};
 procedure ::= PROC:proc IDENT:id LPAREN parameterList:pl RPAREN LCURL variableList:vl statementList:st RCURL {:RESULT = new ProcedureDeclaration(new Position(procleft, procright), new Identifier(id), pl, vl, st);:};
 
 
 //statment result für klammer auf klammer zu
-//Zeile if statement
+//factor
+//expression

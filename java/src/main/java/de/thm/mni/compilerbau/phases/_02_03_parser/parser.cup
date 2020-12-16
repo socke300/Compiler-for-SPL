@@ -33,15 +33,15 @@ non terminal CompoundStatement statementList;
 non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
-non terminal BinaryExpression.Operator comparisonOperator; //---------------------------------
+non terminal BinaryExpression.Operator comparisonOperator;
 non terminal factor; //---------------------------------
 non terminal IfStatement ifStatement;
 non terminal CallStatement functionStatement;
-non terminal argumentList; //--------------------------------- List<Expression> argumentList
+non terminal List<Expression> argumentList;
 non terminal VariableDeclaration varDeclaration;
 non terminal WhileStatement whileStatement;
 non terminal TypeExpression typeExpression;
-non terminal variableList; //--------------------------------- List<Variable> variableList
+non terminal List<Variable> variableList;
 non terminal Variable variable;
 non terminal Expression addexpression;
 non terminal Expression mulExpression;
@@ -49,7 +49,7 @@ non terminal BinaryExpression booleanExpression;
 
 //GLOBAL
 start with program;
-program ::= globalDeclarations {: RESULT = new Program(new Position(0,1), List.nil()); System.out.print("Test"); :};
+program ::= globalDeclarations {: RESULT = new Program(new Position(0,1), List.nil());:};
 globalDeclarations ::= globalDeclaration globalDeclarations | ;
 globalDeclaration ::= typeDeclaration | procedure;
 
@@ -64,7 +64,7 @@ booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr 
 
 //STATEMENT
 statement ::= assignmentStatement | ifStatement | functionStatement | LCURL statementList RCURL | SEMIC | whileStatement;
-assignmentStatement ::= variable ASGN expression SEMIC;
+assignmentStatement ::= variable ASGN addexpression SEMIC;
 ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
 whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
 functionStatement ::= IDENT LPAREN argumentList RPAREN SEMIC;
@@ -73,20 +73,20 @@ functionStatement ::= IDENT LPAREN argumentList RPAREN SEMIC;
 parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration |;
 statementList ::= statement statementList |;
 variableList ::= varDeclaration variableList |;
-argumentList ::= expression COMMA argumentList| expression |;
+argumentList ::= addexpression COMMA argumentList| addexpression |;
 
 //OPERATOR
-comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST :}
-                     | LE {: RESULT = BinaryExpression.Operator.LSE :}
-                     | GT {: RESULT = BinaryExpression.Operator.GRT :}
-                     | GE {: RESULT = BinaryExpression.Operator.GRE :}
-                     | NE {: RESULT = BinaryExpression.Operator.NEQ :}
-                     | EQ {: RESULT = BinaryExpression.Operator.EQU :};
+comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
+                     | LE {: RESULT = BinaryExpression.Operator.LSE; :}
+                     | GT {: RESULT = BinaryExpression.Operator.GRT; :}
+                     | GE {: RESULT = BinaryExpression.Operator.GRE; :}
+                     | NE {: RESULT = BinaryExpression.Operator.NEQ; :}
+                     | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
 
 //OTHER
 addexpression ::= addexpression PLUS mulExpression | addexpression MINUS mulExpression | mulExpression;
 mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | factor;
 factor ::= expression | MINUS factor;
 expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
-variable ::= IDENT | variable LBRACK expression RBRACK;
+variable ::= IDENT | variable LBRACK addexpression RBRACK;
 procedure ::= PROC IDENT LPAREN parameterList RPAREN LCURL variableList statementList RCURL;

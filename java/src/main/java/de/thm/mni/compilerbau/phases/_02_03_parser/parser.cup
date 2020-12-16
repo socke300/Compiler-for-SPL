@@ -59,7 +59,7 @@ globalDeclaration ::= typeDeclaration:td {:RESULT = td;:}
 
 typeDeclaration ::= TYPE:tp IDENT:id EQ typeExpression:ex SEMIC {:RESULT = new TypeDeclaration(new Position(tpleft,tpright),new Identifier(id), ex);:};
 
-typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex , in);:}
+typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:if(in != null) RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex , in);:}
                  | IDENT:id {:RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id));:};
 
 

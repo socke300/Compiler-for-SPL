@@ -29,7 +29,7 @@ non terminal TypeDeclaration typeDeclaration;
 non terminal ProcedureDeclaration proc;
 non terminal List<ParameterDeclaration> parameterList;
 non terminal ParameterDeclaration parameterDeclaration;
-non terminal CompoundStatement statementList;
+non terminal List<Statement> statementList;
 non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
@@ -41,8 +41,8 @@ non terminal List<Expression> argumentList;
 non terminal VariableDeclaration varDeclaration;
 non terminal WhileStatement whileStatement;
 non terminal TypeExpression typeExpression;
-non terminal List<Variable> variableList;
-non terminal Variable variable;
+non terminal List<VariableDeclaration> variableList;
+non terminal VariableDeclaration variable;
 non terminal Expression addexpression;
 non terminal Expression mulExpression;
 non terminal BinaryExpression booleanExpression;
@@ -71,23 +71,22 @@ procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
 
 //Variables
 variableList ::= varDeclaration:vD variableList {: RESULT = vD;:} |;
-varDeclaration ::= VAR IDENT COLON typeExpression SEMIC{: RESULT = vD;:};
+varDeclaration ::= VAR IDENT:name COLON typeExpression:te SEMIC{: RESULT = new VariableDelcaration(new Position(nameleft,namright), name, te);:};
 
 //EXPRESSION
-
-
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT
+statementList ::= statement statementList  |;
 statement ::= assignmentStatement | ifStatement | procCall | LCURL statementList RCURL | SEMIC | whileStatement;
 assignmentStatement ::= variable ASGN addexpression SEMIC;
 ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
 whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
 
 
-//LIST
 
-statementList ::= statement statementList |;
+
+
 
 argumentList ::= addexpression COMMA argumentList| addexpression |;
 
@@ -105,6 +104,7 @@ mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | facto
 factor ::= expression | MINUS factor;
 expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
 variable ::= IDENT | variable LBRACK addexpression RBRACK;
+
 
 
 

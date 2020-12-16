@@ -18,7 +18,7 @@ terminal LT, LE, GT, GE, NE, EQ;                               //Comparison oper
 terminal PLUS, MINUS, STAR, SLASH;                             //Arithmetic operators
 terminal ASGN, COMMA, COLON, SEMIC;                            //Other delimiters
 terminal TYPE, PROC, ARRAY, OF, REF, VAR, IF, ELSE, WHILE;     //Keywords
-terminal Identifier IDENT;                                     //Identifiers
+terminal String IDENT;                                     //Identifiers
 terminal Integer INTLIT;                                       //Integer literals
 
 /* Non-terminals */
@@ -49,19 +49,19 @@ non terminal BinaryExpression booleanExpression;
 
 //GLOBAL
 start with program;
-program ::= globalDeclarations:gd {: RESULT = new Program(new Position(gdleft,gdright), gd);:};
-globalDeclarations ::= globalDeclaration globalDeclarations | ;
-globalDeclaration ::= typeDeclaration:td {: RESULT = td;:}
+program ::= globalDeclarations:gd {: RESULT = new Program(new Position(gdleft,gdright), List.nil());:};
+globalDeclarations ::= globalDeclaration:de globalDeclarations:fd {:RESULT = new List(de, fd);:} | {:RESULT = List.nil();:};
+globalDeclaration ::= typeDeclaration:td {: RESULT = td; :}
                     | procedure;
 
 //DECLARATION
-typeDeclaration ::= TYPE IDENT:id EQ typeExpression:ex SEMIC {: RESULT = new TypeDeclaration(new Position(exleft,exright),id ,ex); :};
+typeDeclaration ::= TYPE IDENT:id EQ typeExpression:ex SEMIC {: RESULT = new TypeDeclaration(new Position(exleft,exright),new Identifier(id) ,ex); :};
 parameterDeclaration ::= IDENT COLON typeExpression | REF IDENT COLON typeExpression;
 varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
 
 //EXPRESSION
-typeExpression ::= ARRAY LBRACK INTLIT RBRACK OF typeExpression
-                 | IDENT;
+typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {: RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex ,in); :}
+                 | IDENT:id {: RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id)); :};
 
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 

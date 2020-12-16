@@ -18,7 +18,7 @@ terminal LT, LE, GT, GE, NE, EQ;                               //Comparison oper
 terminal PLUS, MINUS, STAR, SLASH;                             //Arithmetic operators
 terminal ASGN, COMMA, COLON, SEMIC;                            //Other delimiters
 terminal TYPE, PROC, ARRAY, OF, REF, VAR, IF, ELSE, WHILE;     //Keywords
-terminal Identifier IDENT;                                     //Identifiers
+terminal String IDENT;                                     //Identifiers
 terminal Integer INTLIT;                                       //Integer literals
 
 /* Non-terminals */
@@ -50,34 +50,42 @@ non terminal BinaryExpression booleanExpression;
 //GLOBAL
 start with program;
 program ::= globalDeclarations:gDec {: RESULT = new Program(new Position(gDecleft,gDecright),gDec);:};
-globalDeclarations ::= globalDeclaration globalDeclarations | ;
+globalDeclarations ::= globalDeclaration:head globalDeclarations:tails {: RESULT = new List(head,tails);:}
+                     | {: RESULT =  List.nil();:} ;
+
 globalDeclaration ::= typeDeclaration:td {: RESULT = td;:}
                     | proc:p {: RESULT = p;:};
 
 
 
 //types
-typeDeclaration ::= TYPE IDENT:name EQ typeExpression:te SEMIC {: RESULT = new TypeDeclaration(new Position(nameleft,nameright),name, te);:};
+typeDeclaration ::= TYPE IDENT:name EQ typeExpression:te SEMIC {: RESULT = new TypeDeclaration(new Position(nameleft,nameright),new Identifier(name), te);:};
 typeExpression ::= ARRAY:ar LBRACK INTLIT:size RBRACK OF typeExpression:base {: RESULT = new ArrayTypeExpression(new Position(arleft,arright), base, size);:}
-                 | IDENT:id {: RESULT = new NamedTypeExpression(new Position(idleft,idright), id);:};
+                 | IDENT:name {: RESULT = new NamedTypeExpression(new Position(nameleft,nameright), new Identifier(name));:};
 
 //Procs
-proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList:vList statementList:sList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),name,pList, vList, sList);:};
-parameterList ::= parameterDeclaration COMMA parameterList {: RESULT = List<pd>; :} | parameterDeclaration:pd {: RESULT = pd; :}  | ;
-parameterDeclaration ::= IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name, te, false);:}
-                        | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name, te, true);:};
+proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList:vList statementList:sList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),new Identifier(name), pList, vList, sList);:};
+parameterList ::= parameterDeclaration:pd COMMA parameterList:end {: RESULT = new List(pd,end); :}
+                | parameterDeclaration:pd {: RESULT = new List(pd,List.nil()); :}
+                |  {: RESULT = List.nil(); :};
+parameterDeclaration ::= IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, false);:}
+                        | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, true);:};
 
 procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
 
 //Variables
-variableList ::= varDeclaration:vD variableList {: RESULT = vD;:} |;
-varDeclaration ::= VAR IDENT:name COLON typeExpression:te SEMIC{: RESULT = new VariableDelcaration(new Position(nameleft,namright), name, te);:};
+variableList ::= varDeclaration:vD variableList:tail {: RESULT = new List(vD,tail);:}
+                | {: RESULT =  List.nil();:};
+
+varDeclaration ::= VAR IDENT:name COLON typeExpression:te SEMIC{: RESULT = new VariableDeclaration(new Position(nameleft,nameright), new Identifier(name), te);:};
 
 //EXPRESSION
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT
-statementList ::= statement statementList  |;
+statementList ::= statement:head statementList:tail {: RESULT = new List(head,tail);:}
+                | {: RESULT = List.nil(); :};
+
 statement ::= assignmentStatement | ifStatement | procCall | LCURL statementList RCURL | SEMIC | whileStatement;
 assignmentStatement ::= variable ASGN addexpression SEMIC;
 ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;

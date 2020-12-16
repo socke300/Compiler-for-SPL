@@ -23,6 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="so langsam reichts">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -348,7 +349,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/java/target/generated-sources/cup/de/thm/mni/compilerbau/phases/_02_03_parser/Parser.java</url>
-          <line>424</line>
+          <line>442</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

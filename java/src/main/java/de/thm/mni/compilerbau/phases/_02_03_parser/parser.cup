@@ -18,79 +18,89 @@ terminal LT, LE, GT, GE, NE, EQ;                               //Comparison oper
 terminal PLUS, MINUS, STAR, SLASH;                             //Arithmetic operators
 terminal ASGN, COMMA, COLON, SEMIC;                            //Other delimiters
 terminal TYPE, PROC, ARRAY, OF, REF, VAR, IF, ELSE, WHILE;     //Keywords
-terminal Identifier IDENT;    //Identifiers
-terminal Integer INTLIT;      //Integer literals
+terminal Identifier IDENT;                                     //Identifiers
+terminal Integer INTLIT;                                       //Integer literals
 
 /* Non-terminals */
 non terminal Program program;
 non terminal List<GlobalDeclaration> globalDeclarations;
 non terminal GlobalDeclaration globalDeclaration;
-non terminal parameterList;
-non terminal parameter;
-non terminal declarationList;
-non terminal declaration;
-non terminal proc;
-non terminal type;
-non terminal statementList;
-non terminal statement;
-non terminal whileStmt;
-non terminal ifStmt;
-non terminal asignment;
-non terminal termList;
-non terminal term;
-non terminal vari;
-non terminal opperator;
-non terminal arrdec;
-non terminal comparator;
-non terminal expression;
-non terminal procCall;
-non terminal argumentList;
-non terminal argument;
-non terminal arrclamp;
-non terminal arrOrNot;
-non terminal termListOrVari;
+non terminal TypeDeclaration typeDeclaration;
+non terminal ProcedureDeclaration proc;
+non terminal List<ParameterDeclaration> parameterList;
+non terminal ParameterDeclaration parameterDeclaration;
+non terminal CompoundStatement statementList;
+non terminal Statement statement;
+non terminal Expression expression;
+non terminal AssignStatement assignmentStatement;
+non terminal BinaryExpression.Operator comparisonOperator;
+non terminal factor; //---------------------------------
+non terminal IfStatement ifStatement;
+non terminal CallStatement procCall;
+non terminal List<Expression> argumentList;
+non terminal VariableDeclaration varDeclaration;
+non terminal WhileStatement whileStatement;
+non terminal TypeExpression typeExpression;
+non terminal List<Variable> variableList;
+non terminal Variable variable;
+non terminal Expression addexpression;
+non terminal Expression mulExpression;
+non terminal BinaryExpression booleanExpression;
 
+//GLOBAL
 start with program;
+program ::= globalDeclarations:gDec {: RESULT = new Program(new Position(gDecleft,gDecright),gDec);:};
+globalDeclarations ::= globalDeclaration globalDeclarations | ;
+globalDeclaration ::= typeDeclaration:td {: RESULT = td;:}
+                    | proc:p {: RESULT = p;:};
 
-program ::= globalDeclarations;
-globalDeclarations ::= globalDeclarations globalDeclaration | /* empty */;
-globalDeclaration ::= type | proc;
-type ::= TYPE IDENT EQ IDENT SEMIC | TYPE IDENT EQ arrdec SEMIC;
+
+
+//types
+typeDeclaration ::= TYPE IDENT:name EQ typeExpression:te SEMIC {: RESULT = new TypeDeclaration(new Position(nameleft,nameright),name, te);:};
+typeExpression ::= ARRAY:ar LBRACK INTLIT:size RBRACK OF typeExpression:base {: RESULT = new ArrayTypeExpression(new Position(arleft,arright), base, size);:}
+                 | IDENT:id {: RESULT = new NamedTypeExpression(new Position(idleft,idright), id);:};
 
 //Procs
-proc ::= PROC IDENT LPAREN parameterList RPAREN LCURL declarationList statementList RCURL;
-parameterList ::= parameter | parameter COMMA parameterList | /* emtpy */;
-parameter ::= IDENT COLON IDENT | REF IDENT COLON IDENT;
+proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList statementList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),name,pList) ;:};
+parameterList ::= parameterDeclaration COMMA parameterList | parameterDeclaration {: RESULT = pd; :}  | ;
+parameterDeclaration ::= IDENT:name COLON typeExpression {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), name:}| REF IDENT COLON typeExpression ;
 procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
-argumentList ::= argument | argument COMMA argumentList | /*empty*/;
-argument ::= termListOrVari;
 
-declarationList ::= declarationList declaration | /* empty */;
-declaration ::= VAR IDENT COLON IDENT SEMIC | VAR IDENT COLON arrdec SEMIC;
+varDeclaration ::= VAR IDENT COLON typeExpression SEMIC;
 
-//Statements
-whileStmt ::= WHILE LPAREN expression RPAREN statement;
-ifStmt ::= IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN statement ELSE statement;
-asignment ::=  IDENT arrOrNot ASGN vari SEMIC | IDENT arrOrNot ASGN termList SEMIC;
+//EXPRESSION
 
-statementList ::= statementList statement | /* empty */;
-statement ::= whileStmt | ifStmt | asignment | procCall | SEMIC | LCURL statementList RCURL;
 
-//Terms
-termListOrVari ::= termList | vari;
-termList ::=  term opperator termList | term | term opperator vari;
-term ::=  vari opperator vari | vari opperator LPAREN vari RPAREN | vari opperator LPAREN termList RPAREN | LPAREN termList RPAREN;
-opperator ::= STAR | SLASH | PLUS | MINUS;
-vari ::=  INTLIT | IDENT arrOrNot | MINUS INTLIT | MINUS IDENT arrOrNot;
+booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
-//Array-Stuff
-arrOrNot ::= arrclamp | ;
-arrdec ::= ARRAY LBRACK INTLIT RBRACK OF IDENT | ARRAY LBRACK INTLIT RBRACK OF arrdec;
-arrclamp ::= LBRACK termListOrVari RBRACK | LBRACK termListOrVari RBRACK arrclamp;
+//STATEMENT
+statement ::= assignmentStatement | ifStatement | procCall | LCURL statementList RCURL | SEMIC | whileStatement;
+assignmentStatement ::= variable ASGN addexpression SEMIC;
+ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
+whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
 
-//Expressions
-expression ::= vari comparator vari | vari comparator termList | termList comparator vari | termList comparator termList;
-comparator ::= LT | LE | GT | GE | NE | EQ;
+
+//LIST
+
+statementList ::= statement statementList |;
+variableList ::= varDeclaration variableList |;
+argumentList ::= addexpression COMMA argumentList| addexpression |;
+
+//OPERATOR
+comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
+                     | LE {: RESULT = BinaryExpression.Operator.LSE; :}
+                     | GT {: RESULT = BinaryExpression.Operator.GRT; :}
+                     | GE {: RESULT = BinaryExpression.Operator.GRE; :}
+                     | NE {: RESULT = BinaryExpression.Operator.NEQ; :}
+                     | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
+
+//OTHER
+addexpression ::= addexpression PLUS mulExpression | addexpression MINUS mulExpression | mulExpression;
+mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | factor;
+factor ::= expression | MINUS factor;
+expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
+variable ::= IDENT | variable LBRACK addexpression RBRACK;
 
 
 

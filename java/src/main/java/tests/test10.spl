@@ -1,0 +1,10 @@
+type intliste = array [10] of int;
+proc summe(ref l: intliste, ref summe: int) {
+var index: int;
+index := 0;summe := 0;
+while ( index < 10) {
+summe := summe + l[index];
+index := index + 1;}
+}
+
+

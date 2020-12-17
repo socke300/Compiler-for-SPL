@@ -34,7 +34,7 @@ non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
 non terminal BinaryExpression.Operator comparisonOperator;
-non terminal factor; //---------------------------------
+non terminal Expression factor;
 non terminal IfStatement ifStatement;
 non terminal CallStatement procCall;
 non terminal List<Expression> argumentList;
@@ -42,7 +42,7 @@ non terminal VariableDeclaration varDeclaration;
 non terminal WhileStatement whileStatement;
 non terminal TypeExpression typeExpression;
 non terminal List<VariableDeclaration> variableList;
-non terminal VariableDeclaration variable;
+non terminal Variable variable;
 non terminal Expression addexpression;
 non terminal Expression mulExpression;
 non terminal BinaryExpression booleanExpression;
@@ -69,9 +69,9 @@ parameterList ::= parameterDeclaration:pd COMMA parameterList:end {: RESULT = ne
                 | parameterDeclaration:pd {: RESULT = new List(pd,List.nil()); :}
                 |  {: RESULT = List.nil(); :};
 parameterDeclaration ::= IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, false);:}
-                        | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, true);:};
+                       | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, true);:};
 
-procCall ::= IDENT LPAREN argumentList RPAREN SEMIC;
+procCall ::= IDENT:name LPAREN argumentList:argList RPAREN SEMIC{: RESULT = new CallStatement(new Position(nameleft,nameright), new Identifier(name),argList) ;:};
 
 //Variables
 variableList ::= varDeclaration:vD variableList:tail {: RESULT = new List(vD,tail);:}
@@ -86,17 +86,28 @@ booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr 
 statementList ::= statement:head statementList:tail {: RESULT = new List(head,tail);:}
                 | {: RESULT = List.nil(); :};
 
-statement ::= assignmentStatement | ifStatement | procCall | LCURL statementList RCURL | SEMIC | whileStatement;
-assignmentStatement ::= variable ASGN addexpression SEMIC;
-ifStatement ::= IF LPAREN booleanExpression RPAREN statement | IF LPAREN booleanExpression RPAREN statement ELSE statement;
-whileStatement ::= WHILE LPAREN booleanExpression RPAREN statement;
+statement ::= assignmentStatement:as {: RESULT = as; :}
+            | ifStatement:is {: RESULT = is; :}
+            | procCall:pc {: RESULT = pc; :}
+            | LCURL statementList RCURL
+            | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:}
+            | whileStatement:ws {: RESULT = ws; :};
+
+assignmentStatement ::= variable:target ASGN addexpression:value SEMIC {: RESULT = new AssignStatement(new Poisiton(targetleft,targetright),target,value);:};
+ifStatement ::= IF:if LPAREN booleanExpression:condition RPAREN statement:thenPart {: RESULT = new IfStatement(new Position(ifleft,ifright),condition,thenPart, new EmptyStatement(Position.ERROR_POSITION) );:}
+              | IF:if LPAREN booleanExpression:condition RPAREN statement:thenPart ELSE statement:elsePart; {: RESULT = new IfStatement(new Position(ifleft,ifright),condition,thenPart,elsePart);:}
+
+whileStatement ::= WHILE:w LPAREN booleanExpression:excon RPAREN statement:body {: RESULT = new WhileStatement(new Position(wleft,wright),excon,body);:};
 
 
 
 
 
 
-argumentList ::= addexpression COMMA argumentList| addexpression |;
+argumentList ::= addexpression:head COMMA argumentList:tail {:RESULT = new List(head,tail);:}
+               | addexpression {:RESULT = new List(head,List.nil());:}
+               | {:RESULT = List.nil();:};
+
 
 //OPERATOR
 comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
@@ -107,11 +118,22 @@ comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
                      | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
 
 //OTHER
-addexpression ::= addexpression PLUS mulExpression | addexpression MINUS mulExpression | mulExpression;
-mulExpression ::= mulExpression STAR factor | mulExpression SLASH factor | factor;
-factor ::= expression | MINUS factor;
-expression ::= INTLIT | variable | LPAREN addexpression RPAREN;
-variable ::= IDENT | variable LBRACK addexpression RBRACK;
+addexpression ::= addexpression.lfto PLUS mulExpression.righto {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.ADD, lfto,righto);:}
+                | addexpression.lfto MINUS mulExpression.righto {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.SUB, lfto,righto);:}
+                | mulExpression:mul {: RESULT = mul;:} ;
+
+mulExpression ::= mulExpression.lfto STAR factor.righto  addexpression.lfto PLUS mulExpression.righto {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.MUL, lfto,righto);:}
+                | mulExpression SLASH factor {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.DIV, lfto,righto);:}
+                | factor:f {: RESULT = f;:};
+factor ::= expression:ex {: RESULT = ex;:}
+         | MINUS factor:f {: RESULT = f;:} ;
+
+expression ::= INTLIT:value {: RESULT = new IntLiteral(new Position(valueleft,valueright),value);:}
+             | variable:v {: RESULT = new VariableExpression(new Position(vleft,vright),v) ;:}
+             | LPAREN addexpression:ae RPAREN {: RESULT = ae;:};
+variable ::= IDENT:name {:RESULT = new NamedVariable(new Poisiton(nameleft,nameright),new Identifier(name));:}
+           | variable:array LBRACK addexpression:index RBRACK {:RESULT = new ArrayAccess(new Position(arrayleft,arrayright), array, index);:};
+
 
 
 

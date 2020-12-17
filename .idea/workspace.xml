@@ -22,7 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="ES GIBT EINE AUSGABE!!!" />
+    <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="ES GIBT EINE AUSGABE!!!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +74,7 @@
       <recent name="$PROJECT_DIR$/java/src/main/aufgaben/01" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Maven.spl [jflex:generate]">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
       <module name="spl" />
@@ -130,31 +133,6 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
-    <configuration name="spl [compiler:compile]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="compiler:compile" />
-              </list>
-            </option>
-            <option name="pomFileName" value="pom.xml" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$/java" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-      <method v="2" />
-    </configuration>
     <configuration name="spl [cup:generate]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -180,20 +158,45 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="spl [jflex:generate]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="jflex:generate" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/java" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Maven.spl [compiler:compile]" />
       <item itemvalue="Maven.spl [cup:generate]" />
       <item itemvalue="Maven.spl [clean]" />
       <item itemvalue="Maven.spl [compile]" />
+      <item itemvalue="Maven.spl [jflex:generate]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Maven.spl [compile]" />
-        <item itemvalue="Maven.spl [clean]" />
+        <item itemvalue="Maven.spl [jflex:generate]" />
         <item itemvalue="Maven.spl [cup:generate]" />
-        <item itemvalue="Maven.spl [compiler:compile]" />
+        <item itemvalue="Maven.spl [compile]" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Maven.spl [clean]" />
       </list>
     </recent_temporary>
   </component>

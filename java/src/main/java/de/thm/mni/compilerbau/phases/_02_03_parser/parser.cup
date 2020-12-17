@@ -78,7 +78,7 @@ variableList ::= varDeclaration:vd variableList:vl {:RESULT = new List(vd, vl);:
 argumentList ::= addexpression:ae COMMA argumentList:al {:RESULT = new List(ae, al);:}| addexpression:ae {:RESULT = new List(ae, List.nil());:} | {:RESULT = List.nil();:};
 
 //OPERATOR
-comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :} | LE {: RESULT = BinaryExpression.Operator.LSE; :} | GT {: RESULT = BinaryExpression.Operator.GRT; :} | GE {: RESULT = BinaryExpression.Operator.GRE; :} | NE {: RESULT = BinaryExpression.Operator.NEQ; :} | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
+comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :} | LE {: RESULT = BinaryExpression.Operator.LSE; :} | GT {: RESULT = BinaryExpression.Operator.GRT; :} | GE {: RESULT = BinaryExpression.Operator.GRE; :} | NE {: RESULT = BinaryExpression.Operator.NEQ; :} | EQ {: RESULT = BinaryExpression.Operator.EQU;:};
 
 //OTHER
 addexpression ::= addexpression:ae PLUS mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), BinaryExpression.Operator.ADD, ae, me);:} | addexpression:ae MINUS mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), BinaryExpression.Operator.SUB, ae, me);:} | mulExpression:me {:RESULT = me;:};

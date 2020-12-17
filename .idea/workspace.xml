@@ -22,7 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="ES GIBT EINE AUSGABE!!!">
+    <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="builded wieder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" afterDir="false" />
     </list>
@@ -74,8 +74,8 @@
       <recent name="$PROJECT_DIR$/java/src/main/aufgaben/01" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.abysn bigtest">
+    <configuration name="abysn bigtest" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
       <module name="spl" />
       <option name="PROGRAM_PARAMETERS" value="--absyn java/src/main/java/tests/test10.spl" />
@@ -184,7 +184,7 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.abysn bigtest" />
       <item itemvalue="Maven.spl [cup:generate]" />
       <item itemvalue="Maven.spl [compile]" />
       <item itemvalue="Maven.spl [jflex:generate]" />
@@ -192,7 +192,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Maven.spl [cup:generate]" />
         <item itemvalue="Maven.spl [compiler:compile]" />
         <item itemvalue="Maven.spl [jflex:generate]" />
@@ -307,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608138379625</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="builded wieder">
+      <created>1608212416430</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1608212416430</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -350,7 +356,8 @@
     <MESSAGE value="testen für marcel" />
     <MESSAGE value="so langsam reichts" />
     <MESSAGE value="ES GIBT EINE AUSGABE!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="ES GIBT EINE AUSGABE!!!" />
+    <MESSAGE value="builded wieder" />
+    <option name="LAST_COMMIT_MESSAGE" value="builded wieder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

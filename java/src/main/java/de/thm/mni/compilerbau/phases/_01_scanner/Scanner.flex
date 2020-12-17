@@ -60,7 +60,7 @@ else {return symbol (Sym.ELSE);}
 while {return symbol (Sym.WHILE);}
 [a-zA-Z_][a-zA-Z_0-9]* {return symbol (Sym.IDENT, yytext());}
 [0-9]+ {return symbol (Sym.INTLIT, Integer.parseInt(yytext()));}
-\'\\n\' {return symbol (Sym.INTLIT);}
+\'\\n\' {return symbol (Sym.INTLIT, 10);}
 \'.\' {return symbol (Sym.INTLIT, (int) yytext().charAt(1));}
 0x[a-fA-F0-9]+ {return symbol (Sym.INTLIT, Integer.parseInt(yytext().substring(2),16));}
 [ \t\n\r] {}

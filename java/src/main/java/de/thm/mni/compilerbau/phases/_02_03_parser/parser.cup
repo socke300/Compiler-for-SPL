@@ -79,7 +79,6 @@ variableList ::= varDeclaration:vD variableList:tail {: RESULT = new List(vD,tai
 
 varDeclaration ::= VAR IDENT:name COLON typeExpression:te SEMIC{: RESULT = new VariableDeclaration(new Position(nameleft,nameright), new Identifier(name), te);:};
 
-//EXPRESSION
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
 
 //STATEMENT
@@ -93,7 +92,7 @@ statement ::= assignmentStatement:as {: RESULT = as; :}
             | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:}
             | whileStatement:ws {: RESULT = ws; :};
 
-assignmentStatement ::= variable:target ASGN addexpression:value SEMIC {: RESULT = new AssignStatement(new Poisition(targetleft,targetright),target,value);:};
+assignmentStatement ::= variable:target ASGN addexpression:value SEMIC {: RESULT = new AssignStatement(new Position(targetleft,targetright),target,value);:};
 ifStatement ::= IF:ifs LPAREN booleanExpression:condition RPAREN statement:thenPart {: RESULT = new IfStatement(new Position(ifsleft,ifsright),condition,thenPart, new EmptyStatement(Position.ERROR_POSITION) );:}
               | IF:ifs LPAREN booleanExpression:condition RPAREN statement:thenPart ELSE statement:elsePart {: RESULT = new IfStatement(new Position(ifsleft,ifsright),condition,thenPart,elsePart);:};
 
@@ -105,7 +104,7 @@ whileStatement ::= WHILE:w LPAREN booleanExpression:excon RPAREN statement:body 
 
 
 argumentList ::= addexpression:head COMMA argumentList:tail {:RESULT = new List(head,tail);:}
-               | addexpression {:RESULT = new List(head,List.nil());:}
+               | addexpression:head {:RESULT = new List(head,List.nil());:}
                | {:RESULT = List.nil();:};
 
 
@@ -130,7 +129,7 @@ factor ::= expression:ex {: RESULT = ex;:}
 expression ::= INTLIT:value {: RESULT = new IntLiteral(new Position(valueleft,valueright),value);:}
              | variable:v {: RESULT = new VariableExpression(new Position(vleft,vright),v) ;:}
              | LPAREN addexpression:ae RPAREN {: RESULT = ae;:};
-variable ::= IDENT:name {:RESULT = new NamedVariable(new Poisiton(nameleft,nameright),new Identifier(name));:}
+variable ::= IDENT:name {:RESULT = new NamedVariable(new Position(nameleft,nameright),new Identifier(name));:}
            | variable:array LBRACK addexpression:index RBRACK {:RESULT = new ArrayAccess(new Position(arrayleft,arrayright), array, index);:};
 
 

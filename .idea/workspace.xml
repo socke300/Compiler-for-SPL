@@ -74,7 +74,7 @@
       <recent name="$PROJECT_DIR$/java/src/main/aufgaben/01" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.spl [cup:generate]">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
       <module name="spl" />
@@ -192,9 +192,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Maven.spl [cup:generate]" />
         <item itemvalue="Maven.spl [compiler:compile]" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="Maven.spl [jflex:generate]" />
         <item itemvalue="Maven.spl [compile]" />
       </list>

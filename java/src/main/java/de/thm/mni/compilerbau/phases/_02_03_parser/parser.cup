@@ -89,7 +89,7 @@ statementList ::= statement:head statementList:tail {: RESULT = new List(head,ta
 statement ::= assignmentStatement:as {: RESULT = as; :}
             | ifStatement:is {: RESULT = is; :}
             | procCall:pc {: RESULT = pc; :}
-            | LCURL statementList RCURL
+            | LCURL statementList:sL RCURL {:RESULT = new CompoundStatement(new Position(sLleft, sLright), sL);:}
             | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:}
             | whileStatement:ws {: RESULT = ws; :};
 
@@ -118,13 +118,12 @@ comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
                      | EQ {: RESULT = BinaryExpression.Operator.EQU; :};
 
 //OTHER
-addexpression ::= addexpression.lfto PLUS mulExpression.righto {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.ADD, lfto,righto);:}
-                | addexpression.lfto MINUS mulExpression.righto {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.SUB, lfto,righto);:}
-                | mulExpression:mul {: RESULT = mul;:} ;
-
-mulExpression ::= mulExpression.lfto STAR factor.righto  addexpression.lfto PLUS mulExpression.righto {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.MUL, lfto,righto);:}
-                | mulExpression SLASH factor {: RESULT = new BinaryExpression(new Position(leftoleft,leftoright),BinaryExpression.Operator.DIV, lfto,righto);:}
-                | factor:f {: RESULT = f;:};
+addexpression ::= addexpression:ae PLUS mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), BinaryExpression.Operator.ADD, ae, me);:}
+                | addexpression:ae MINUS mulExpression:me {:RESULT = new BinaryExpression(new Position(aeleft, aeright), BinaryExpression.Operator.SUB, ae, me);:}
+                | mulExpression:me {:RESULT = me;:};
+mulExpression ::= mulExpression:me STAR factor:fa {:RESULT = new BinaryExpression(new Position(meleft, meright), BinaryExpression.Operator.MUL, me, fa);:}
+                | mulExpression:me SLASH factor:fa {:RESULT = new BinaryExpression(new Position(meleft, meright), BinaryExpression.Operator.DIV, me, fa);:}
+                | factor:fa {:RESULT = fa;:};
 factor ::= expression:ex {: RESULT = ex;:}
          | MINUS factor:f {: RESULT = f;:} ;
 

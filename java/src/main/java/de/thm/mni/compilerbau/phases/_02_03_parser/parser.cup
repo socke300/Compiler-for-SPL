@@ -95,7 +95,7 @@ statement ::= assignmentStatement:as {: RESULT = as; :}
 
 assignmentStatement ::= variable:target ASGN addexpression:value SEMIC {: RESULT = new AssignStatement(new Poisiton(targetleft,targetright),target,value);:};
 ifStatement ::= IF:if LPAREN booleanExpression:condition RPAREN statement:thenPart {: RESULT = new IfStatement(new Position(ifleft,ifright),condition,thenPart, new EmptyStatement(Position.ERROR_POSITION) );:}
-              | IF:if LPAREN booleanExpression:condition RPAREN statement:thenPart ELSE statement:elsePart; {: RESULT = new IfStatement(new Position(ifleft,ifright),condition,thenPart,elsePart);:}
+              | IF:if LPAREN booleanExpression:condition RPAREN statement:thenPart ELSE statement:elsePart {: RESULT = new IfStatement(new Position(ifleft,ifright),condition,thenPart,elsePart);:};
 
 whileStatement ::= WHILE:w LPAREN booleanExpression:excon RPAREN statement:body {: RESULT = new WhileStatement(new Position(wleft,wright),excon,body);:};
 

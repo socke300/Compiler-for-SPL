@@ -37,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="8273f94b0622273df5ac00ca08b8a3d72fb73eb1" />
+        <entry key="$PROJECT_DIR$" value="89aa98bb06ff540e232a164387924fe2cbb10ad3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,7 +74,7 @@
       <recent name="$PROJECT_DIR$/java/src/main/aufgaben/01" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.spl [jflex:generate]">
+  <component name="RunManager" selected="Maven.spl [cup:generate]">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
       <module name="spl" />
@@ -82,31 +82,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="spl [clean]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="clean" />
-              </list>
-            </option>
-            <option name="pomFileName" value="pom.xml" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$/java" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-      <method v="2" />
     </configuration>
     <configuration name="spl [compile]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
@@ -120,6 +95,31 @@
             <option name="goals">
               <list>
                 <option value="compile" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/java" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="spl [compiler:compile]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compiler:compile" />
               </list>
             </option>
             <option name="pomFileName" value="pom.xml" />
@@ -186,17 +186,17 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Maven.spl [cup:generate]" />
-      <item itemvalue="Maven.spl [clean]" />
       <item itemvalue="Maven.spl [compile]" />
       <item itemvalue="Maven.spl [jflex:generate]" />
+      <item itemvalue="Maven.spl [compiler:compile]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Maven.spl [jflex:generate]" />
         <item itemvalue="Maven.spl [cup:generate]" />
-        <item itemvalue="Maven.spl [compile]" />
+        <item itemvalue="Maven.spl [compiler:compile]" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Maven.spl [clean]" />
+        <item itemvalue="Maven.spl [jflex:generate]" />
+        <item itemvalue="Maven.spl [compile]" />
       </list>
     </recent_temporary>
   </component>

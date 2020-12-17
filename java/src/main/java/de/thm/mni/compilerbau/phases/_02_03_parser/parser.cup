@@ -34,7 +34,7 @@ non terminal Statement statement;
 non terminal Expression expression;
 non terminal AssignStatement assignmentStatement;
 non terminal BinaryExpression.Operator comparisonOperator;
-non terminal factor; //---------------------------------
+non terminal Expression factor;
 non terminal IfStatement ifStatement;
 non terminal CallStatement functionStatement;
 non terminal List<Expression> argumentList;
@@ -65,7 +65,7 @@ booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr 
 typeExpression ::= ARRAY:ar LBRACK INTLIT:in RBRACK OF typeExpression:ex {:if(in != null) RESULT = new ArrayTypeExpression(new Position(arleft,arright),ex , in);:} | IDENT:id {:RESULT = new NamedTypeExpression(new Position(idleft,idright), new Identifier(id));:};
 
 //STATEMENT
-statement ::= assignmentStatement:as {:RESULT = as;:} | ifStatement:is {:RESULT = is;:} | functionStatement:fs {:RESULT = fs;:}  | LCURL statementList RCURL | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:} | whileStatement:ws {:RESULT = ws;:};
+statement ::= assignmentStatement:as {:RESULT = as;:} | ifStatement:is {:RESULT = is;:} | functionStatement:fs {:RESULT = fs;:} | LCURL statementList:sl RCURL {:RESULT = new CompoundStatement(new Position(slleft, slright), sl);:} | SEMIC:sm {:RESULT = new EmptyStatement(new Position(smleft, smright));:} | whileStatement:ws {:RESULT = ws;:};
 assignmentStatement ::= variable:var ASGN addexpression:ae SEMIC {:RESULT = new AssignStatement(new Position(varleft, varright), var, ae);:};
 ifStatement ::= IF:ic LPAREN booleanExpression:be RPAREN statement:st {:RESULT = new IfStatement(new Position(icleft, icright), be, st, new EmptyStatement(Position.ERROR_POSITION));:} | IF:ic LPAREN booleanExpression:be RPAREN statement:stt ELSE statement:stf {:RESULT = new IfStatement(new Position(icleft, icright), be, stt, stf);:};
 whileStatement ::= WHILE:wh LPAREN booleanExpression:be RPAREN statement:st {:RESULT = new WhileStatement(new Position(whleft, whright), be, st);:};
@@ -87,8 +87,3 @@ factor ::= expression:ex {:RESULT = ex;:} | MINUS factor:fa {:RESULT = fa;:};
 expression ::= INTLIT:in {:if(in != null) RESULT = new IntLiteral(new Position(inleft, inright), in);:} | variable:va {:RESULT = new VariableExpression(new Position(valeft, varight), va);:} | LPAREN addexpression:ae RPAREN {:RESULT = ae;:};
 variable ::= IDENT:id {:RESULT = new NamedVariable(new Position(idleft, idright), new Identifier(id));:} | variable:va LBRACK addexpression:ae RBRACK {:RESULT = new ArrayAccess(new Position(valeft, varight), va, ae);:};
 procedure ::= PROC:proc IDENT:id LPAREN parameterList:pl RPAREN LCURL variableList:vl statementList:st RCURL {:RESULT = new ProcedureDeclaration(new Position(procleft, procright), new Identifier(id), pl, vl, st);:};
-
-
-//statment result für klammer auf klammer zu
-//factor
-//expression

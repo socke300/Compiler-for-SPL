@@ -60,8 +60,9 @@ globalDeclaration ::= typeDeclaration:td {: RESULT = td;:}
 
 //types
 typeDeclaration ::= TYPE IDENT:name EQ typeExpression:te SEMIC {: RESULT = new TypeDeclaration(new Position(nameleft,nameright),new Identifier(name), te);:};
-typeExpression ::= ARRAY:ar LBRACK INTLIT:size RBRACK OF typeExpression:base {: RESULT = new ArrayTypeExpression(new Position(arleft,arright), base, size);:}
+typeExpression ::= ARRAY:ar LBRACK INTLIT:size RBRACK OF typeExpression:base {: if(size != null) RESULT = new ArrayTypeExpression(new Position(arleft,arright), base, size);:}
                  | IDENT:name {: RESULT = new NamedTypeExpression(new Position(nameleft,nameright), new Identifier(name));:};
+
 
 //Procs
 proc ::= PROC:p IDENT:name LPAREN parameterList:pList RPAREN LCURL variableList:vList statementList:sList RCURL {: RESULT = new ProcedureDeclaration(new Position(pleft,pright),new Identifier(name), pList, vList, sList);:};
@@ -71,7 +72,12 @@ parameterList ::= parameterDeclaration:pd COMMA parameterList:end {: RESULT = ne
 parameterDeclaration ::= IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, false);:}
                        | REF IDENT:name COLON typeExpression:te {: RESULT =  new ParameterDeclaration(new Position(nameleft,nameright), new Identifier(name), te, true);:};
 
-procCall ::= IDENT:name LPAREN argumentList:argList RPAREN SEMIC{: RESULT = new CallStatement(new Position(nameleft,nameright), new Identifier(name),argList) ;:};
+procCall ::= IDENT:name LPAREN argumentList:argList RPAREN SEMIC{: RESULT = new CallStatement(new Position(nameleft,nameright), new Identifier(name),argList);:};
+
+argumentList ::= addexpression:head COMMA argumentList:tail {:RESULT = new List(head,tail);:}
+               | addexpression:head {:RESULT = new List(head,List.nil());:}
+               | {:RESULT = List.nil();:};
+
 
 //Variables
 variableList ::= varDeclaration:vD variableList:tail {: RESULT = new List(vD,tail);:}
@@ -80,6 +86,7 @@ variableList ::= varDeclaration:vD variableList:tail {: RESULT = new List(vD,tai
 varDeclaration ::= VAR IDENT:name COLON typeExpression:te SEMIC{: RESULT = new VariableDeclaration(new Position(nameleft,nameright), new Identifier(name), te);:};
 
 booleanExpression ::= addexpression:opl comparisonOperator:op addexpression:opr {: RESULT = new BinaryExpression(new Position(opleft, opright) , op, opl, opr); :};
+
 
 //STATEMENT
 statementList ::= statement:head statementList:tail {: RESULT = new List(head,tail);:}
@@ -100,14 +107,6 @@ whileStatement ::= WHILE:w LPAREN booleanExpression:excon RPAREN statement:body 
 
 
 
-
-
-
-argumentList ::= addexpression:head COMMA argumentList:tail {:RESULT = new List(head,tail);:}
-               | addexpression:head {:RESULT = new List(head,List.nil());:}
-               | {:RESULT = List.nil();:};
-
-
 //OPERATOR
 comparisonOperator ::= LT {: RESULT = BinaryExpression.Operator.LST; :}
                      | LE {: RESULT = BinaryExpression.Operator.LSE; :}
@@ -126,7 +125,7 @@ mulExpression ::= mulExpression:me STAR factor:fa {:RESULT = new BinaryExpressio
 factor ::= expression:ex {: RESULT = ex;:}
          | MINUS factor:f {: RESULT = f;:} ;
 
-expression ::= INTLIT:value {: RESULT = new IntLiteral(new Position(valueleft,valueright),value);:}
+expression ::= INTLIT:value {:if(value != null) RESULT = new IntLiteral(new Position(valueleft,valueright),value);:}
              | variable:v {: RESULT = new VariableExpression(new Position(vleft,vright),v) ;:}
              | LPAREN addexpression:ae RPAREN {: RESULT = ae;:};
 variable ::= IDENT:name {:RESULT = new NamedVariable(new Position(nameleft,nameright),new Identifier(name));:}

@@ -22,7 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="builded wieder">
+    <list default="true" id="58ebb9bb-3ba2-49ea-b9aa-c1e8f7da6203" name="Default Changelist" comment="Parser working on test10">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" beforeDir="false" afterPath="$PROJECT_DIR$/java/src/main/java/de/thm/mni/compilerbau/phases/_02_03_parser/parser.cup" afterDir="false" />
     </list>
@@ -78,7 +78,7 @@
     <configuration name="abysn bigtest" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
       <module name="spl" />
-      <option name="PROGRAM_PARAMETERS" value="--absyn java/src/main/java/tests/test10.spl" />
+      <option name="PROGRAM_PARAMETERS" value="--absyn java/src/main/java/tests/bigtest.spl" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -313,7 +313,21 @@
       <option name="project" value="LOCAL" />
       <updated>1608212416430</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="working on A3">
+      <created>1608213123041</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1608213123041</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Parser working on test10">
+      <created>1608213310461</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1608213310461</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -357,7 +371,9 @@
     <MESSAGE value="so langsam reichts" />
     <MESSAGE value="ES GIBT EINE AUSGABE!!!" />
     <MESSAGE value="builded wieder" />
-    <option name="LAST_COMMIT_MESSAGE" value="builded wieder" />
+    <MESSAGE value="working on A3" />
+    <MESSAGE value="Parser working on test10" />
+    <option name="LAST_COMMIT_MESSAGE" value="Parser working on test10" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

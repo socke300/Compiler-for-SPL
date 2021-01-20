@@ -31,4 +31,18 @@ public class TableBuilder {
 
         throw new NotImplemented();
     }
+
+    public void visit(Program program) {
+        program.declarations.forEach(dec -> dec.accept(this));
+    }
+
+    public void visit(VariableDeclaration variableDeclaration) {
+        variableDeclaration.typeExpression.accept(this);
+        table.enter(new VariableEntry(variableDeclaration.name, variableDeclaration.typeExpression.dataType, false), SplError.RedeclarationAsVariable(variableDeclaration.position, variableDeclaration.name));
+    }
+
+    public void visit(ArrayTypeExpression arrayTypeExpression) {
+        arrayTypeExpression.baseType.accept(this);
+        arrayTypeExpression.dataType = new ArrayType(arrayTypeExpression.baseType.dataType, arrayTypeExpression.arraySize);
+    }
 }

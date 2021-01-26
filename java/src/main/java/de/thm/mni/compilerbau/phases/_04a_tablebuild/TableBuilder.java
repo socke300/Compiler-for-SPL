@@ -72,6 +72,8 @@ public class TableBuilder {
 
         public void visit (ParameterDeclaration parameterDeclaration) {
             parameterDeclaration.typeExpression.accept(this);
+            if (parameterDeclaration.typeExpression.dataType instanceof ArrayType && !parameterDeclaration.isReference)
+                throw SplError.MustBeAReferenceParameter(parameterDeclaration.position, parameterDeclaration.name);
             symbolTable.enter(new VariableEntry(parameterDeclaration.name, parameterDeclaration.typeExpression.dataType, parameterDeclaration.isReference), SplError.RedeclarationAsParameter(parameterDeclaration.position, parameterDeclaration.name));
         }
 

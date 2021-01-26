@@ -33,7 +33,7 @@ public class BinaryExpression extends Expression {
          * @return true if the operator is an arithmetic operator.
          */
         public boolean isArithmetic() {
-            throw new NotImplemented();     //TODO: Implement yourself if you need this
+            return List.of(ADD, SUB, MUL, DIV).contains(this);     //TODO: Implement yourself if you need this
         }
 
         /**

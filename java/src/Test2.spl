@@ -1,1 +1,1 @@
-type myint = int;type myarray = array [10] of myint;type komplex = array [10] of array [20] of array [30] of array [40] of myarray;proc main (){}proc add (d:myint, e:myint) {    var a : myint;    var b : myint;}
+type myint = int;type myarray = array [10] of myint;type komplex = array [10] of array [20] of array [30] of array [40] of myarray;proc add (d:myint, e:myint, ref summe:myarray) {    summe[1] := d + e;}proc main (){    var i1 : myarray;    var i2 : myint;    var i3 : myarray;    i1[1] := 2;    i2 := 5;    add(i1[0], i2, i3);}

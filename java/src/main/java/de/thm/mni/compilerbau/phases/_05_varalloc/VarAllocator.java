@@ -2,11 +2,11 @@ package de.thm.mni.compilerbau.phases._05_varalloc;
 
 import de.thm.mni.compilerbau.absyn.*;
 import de.thm.mni.compilerbau.absyn.visitor.DoNothingVisitor;
-import de.thm.mni.compilerbau.table.ParameterType;
-import de.thm.mni.compilerbau.table.ProcedureEntry;
-import de.thm.mni.compilerbau.table.SymbolTable;
-import de.thm.mni.compilerbau.table.VariableEntry;
+import de.thm.mni.compilerbau.phases._04b_semant.ProcedureBodyChecker;
+import de.thm.mni.compilerbau.table.*;
+import de.thm.mni.compilerbau.types.PrimitiveType;
 import de.thm.mni.compilerbau.utils.NotImplemented;
+import de.thm.mni.compilerbau.utils.SplError;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,6 +33,33 @@ public class VarAllocator {
         //TODO: Uncomment this when the above exception is removed!
         //if (showVarAlloc) System.out.println(formatVars(program, table));
     }
+
+    class VarAllocatorVisitor extends DoNothingVisitor {
+        SymbolTable symbolTable;
+
+        VarAllocatorVisitor(SymbolTable symbolTable) {
+            this.symbolTable = symbolTable;
+        }
+
+        public void visit(Program program) {
+            program.declarations.forEach(dec -> dec.accept(this));
+        }
+
+        public void visit(ProcedureDeclaration procedureDeclaration) {
+            ProcedureEntry entry = (ProcedureEntry) symbolTable.lookup(procedureDeclaration.name);
+            SymbolTable localTable = entry.localTable;
+            for (int i = 0; i < procedureDeclaration.variables.size(); i++) {
+                VariableEntry variableEntry = (VariableEntry) localTable.lookup(procedureDeclaration.variables.get(i).name);
+                if (procedureDeclaration.variables.get(i).typeExpression.dataType instanceof PrimitiveType) {
+                    entry.localVarAreaSize += 4;
+                } else {
+
+                }
+                variableEntry.offset += 1;
+            }
+        }
+    }
+
 
     /**
      * Formats the variable allocation to a human readable format

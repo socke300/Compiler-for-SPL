@@ -27,11 +27,11 @@ public class VarAllocator {
 
     public void allocVars(Program program, SymbolTable table) {
         //TODO (assignment 5): Allocate stack slots for all parameters and local variables
-
-        throw new NotImplemented();
+        program.accept(new VarAllocatorVisitor(table));
+        program.accept(new OutgoingAreaVisitor(table));
 
         //TODO: Uncomment this when the above exception is removed!
-        //if (showVarAlloc) System.out.println(formatVars(program, table));
+        if (showVarAlloc) System.out.println(formatVars(program, table));
     }
 
     class VarAllocatorVisitor extends DoNothingVisitor {
@@ -48,16 +48,53 @@ public class VarAllocator {
         public void visit(ProcedureDeclaration procedureDeclaration) {
             ProcedureEntry entry = (ProcedureEntry) symbolTable.lookup(procedureDeclaration.name);
             SymbolTable localTable = entry.localTable;
+            int offset = 0;
             for (int i = 0; i < procedureDeclaration.variables.size(); i++) {
                 VariableEntry variableEntry = (VariableEntry) localTable.lookup(procedureDeclaration.variables.get(i).name);
-                if (procedureDeclaration.variables.get(i).typeExpression.dataType instanceof PrimitiveType) {
-                    entry.localVarAreaSize += 4;
-                } else {
-
-                }
-                variableEntry.offset += 1;
+                offset -= procedureDeclaration.variables.get(i).typeExpression.dataType.byteSize;
+                variableEntry.offset = offset;
             }
+            entry.localVarAreaSize = -1 * offset;
+            offset = 0;
+            for (int i = 0; i < entry.parameterTypes.size(); i++) {
+                VariableEntry parameterEntry = (VariableEntry) localTable.lookup(procedureDeclaration.parameters.get(i).name);
+                parameterEntry.offset = offset;
+                entry.parameterTypes.get(i).offset = offset;
+                if (procedureDeclaration.parameters.get(i).isReference)
+                    offset += 4;
+                else
+                    offset += procedureDeclaration.parameters.get(i).typeExpression.dataType.byteSize;
+            }
+            entry.argumentAreaSize = offset;
         }
+    }
+
+    class OutgoingAreaVisitor extends DoNothingVisitor {
+        SymbolTable symbolTable;
+        int dataSize = -1;
+
+        OutgoingAreaVisitor(SymbolTable symbolTable) {
+            this.symbolTable = symbolTable;
+        }
+
+        public void visit(Program program) {
+            program.declarations.forEach(dec -> dec.accept(this));
+        }
+
+        public void visit(ProcedureDeclaration procedureDeclaration) {
+            ProcedureEntry entry = (ProcedureEntry) symbolTable.lookup(procedureDeclaration.name);
+            SymbolTable localTable = entry.localTable;
+            OutgoingAreaVisitor vistor = new OutgoingAreaVisitor(localTable);
+            procedureDeclaration.body.forEach(statement -> statement.accept(vistor));
+            entry.outgoingAreaSize = vistor.dataSize;
+        }
+
+        public void visit(CallStatement callStatement) {
+            ProcedureEntry entry = (ProcedureEntry) symbolTable.lookup(callStatement.procedureName);
+            if (dataSize < entry.argumentAreaSize)
+                dataSize = entry.argumentAreaSize;
+        }
+
     }
 
 

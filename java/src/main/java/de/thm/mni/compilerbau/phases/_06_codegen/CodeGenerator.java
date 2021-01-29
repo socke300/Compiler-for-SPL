@@ -4,10 +4,7 @@ import de.thm.mni.compilerbau.absyn.*;
 import de.thm.mni.compilerbau.absyn.visitor.DoNothingVisitor;
 import de.thm.mni.compilerbau.phases._04b_semant.ProcedureBodyChecker;
 import de.thm.mni.compilerbau.phases._05_varalloc.VarAllocator;
-import de.thm.mni.compilerbau.table.Identifier;
-import de.thm.mni.compilerbau.table.ProcedureEntry;
-import de.thm.mni.compilerbau.table.SymbolTable;
-import de.thm.mni.compilerbau.table.VariableEntry;
+import de.thm.mni.compilerbau.table.*;
 import de.thm.mni.compilerbau.types.ArrayType;
 import de.thm.mni.compilerbau.utils.NotImplemented;
 import de.thm.mni.compilerbau.utils.SplError;
@@ -58,7 +55,6 @@ public class CodeGenerator {
         int registerPointer = 8;
         String label;
         int labelCount = 0;
-        int index = 0;
         Register zero = new Register(0);
         Register fp = new Register(25);
         Register sp = new Register(29);
@@ -101,7 +97,6 @@ public class CodeGenerator {
         public void visit(IntLiteral intLiteral) {
             output.emitInstruction("add", new Register(registerPointer), zero, intLiteral.value, "value = " + intLiteral.value);
             registerPointer++;
-            index = intLiteral.value;
         }
 
         public void visit(BinaryExpression binaryExpression) {
@@ -156,13 +151,14 @@ public class CodeGenerator {
         }
 
         public void visit(ArrayAccess arrayAccess) {
+            VariableEntry typeEntry = (VariableEntry) symbolTable.lookup(((NamedVariable)arrayAccess.array).name);
             arrayAccess.array.accept(this);
             arrayAccess.index.accept(this);
-            output.emitInstruction("add", new Register(registerPointer), zero, index * arrayAccess.dataType.byteSize);
+            output.emitInstruction("add", new Register(registerPointer), zero, typeEntry.type.byteSize/4, "test");
+            output.emitInstruction("bgeu", new Register(registerPointer - 1), new Register(registerPointer), "_indexError");
             registerPointer--;
-            output.emitInstruction("bgeu", new Register(registerPointer), new Register(registerPointer - 1), "_indexError");
             output.emitInstruction("mul", new Register(registerPointer), new Register(registerPointer), arrayAccess.dataType.byteSize);
-            output.emitInstruction("add", new Register(registerPointer - 1), new Register(registerPointer), new Register(registerPointer));
+            output.emitInstruction("add", new Register(registerPointer-1), new Register(registerPointer-1), new Register(registerPointer));
         }
 
         public void visit(WhileStatement whileStatement) {

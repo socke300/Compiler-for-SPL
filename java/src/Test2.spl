@@ -1,1 +1,1 @@
-type myarray = array[9] of int;proc sdh (ref f : myarray){    var h : int;    h := f[1];}proc main() {    var b : myarray;    var c : myarray;    b[1] := 5;    c[b[1]] := 2;    sdh(b);}
+type myarray = array[152] of int;proc sdh (ref f : myarray){    var h : int;    h := f[1];}proc main() {    var b : myarray;    var c : myarray;    var d : myarray;    var e : myarray;    b[1] := 5;    c[b[1]] := 2;    d[1] := 5;    e[8] := 5;}

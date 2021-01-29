@@ -151,10 +151,9 @@ public class CodeGenerator {
         }
 
         public void visit(ArrayAccess arrayAccess) {
-            VariableEntry typeEntry = (VariableEntry) symbolTable.lookup(((NamedVariable)arrayAccess.array).name);
             arrayAccess.array.accept(this);
             arrayAccess.index.accept(this);
-            output.emitInstruction("add", new Register(registerPointer), zero, typeEntry.type.byteSize/4, "test");
+            output.emitInstruction("add", new Register(registerPointer), zero, arrayAccess.array.dataType.byteSize/4, "test");
             output.emitInstruction("bgeu", new Register(registerPointer - 1), new Register(registerPointer), "_indexError");
             registerPointer--;
             output.emitInstruction("mul", new Register(registerPointer), new Register(registerPointer), arrayAccess.dataType.byteSize);

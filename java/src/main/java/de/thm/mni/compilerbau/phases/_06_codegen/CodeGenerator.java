@@ -191,11 +191,11 @@ public class CodeGenerator {
         }
 
         public void visit(CallStatement callStatement) {
-            callStatement.argumentList.forEach(expression -> expression.accept(this));
+
             ProcedureEntry procedureEntry = (ProcedureEntry) globalTable.lookup(callStatement.procedureName);
             for (int i = 0; i < callStatement.argumentList.size(); i++) {
-                //if (procedureEntry.parameterTypes.get(i).isReference) ((VariableExpression) callStatement.argumentList.get(i)).variable.accept(this);
-                //else callStatement.argumentList.get(i).accept(this);
+                if (procedureEntry.parameterTypes.get(i).isReference) ((VariableExpression) callStatement.argumentList.get(i)).variable.accept(this);
+                else callStatement.argumentList.get(i).accept(this);
                 output.emitInstruction("stw", new Register(registerPointer - 1), sp, procedureEntry.parameterTypes.get(i).offset, "store arg #" + i);
                 registerPointer--;
             }
@@ -209,6 +209,7 @@ public class CodeGenerator {
         public void visit(NamedVariable namedVariable) {
             VariableEntry variableEntry = (VariableEntry) symbolTable.lookup(namedVariable.name);
             output.emitInstruction("add", new Register(registerPointer), fp, variableEntry.offset);
+            if(variableEntry.isReference) output.emitInstruction("ldw", new Register(registerPointer), new Register(registerPointer), 0);
             registerPointer++;
         }
     }

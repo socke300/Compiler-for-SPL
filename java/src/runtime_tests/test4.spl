@@ -3,7 +3,7 @@
 //
 
 
-proc fak1(n: int, ref m: int) {
+proc fak1(n: int,ref m: int) {
   m := 1;
   while (n # 0) {
     m := m * n;

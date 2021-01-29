@@ -84,18 +84,18 @@ public class CodeGenerator {
             int fpOffset = entry.outgoingAreaSize > -1 ? entry.outgoingAreaSize + 4 : 0;
             int retOffset = -(entry.localVarAreaSize + 8);
             output.emitInstruction("sub", sp, sp, framesize, "allocate frame");
-            output.emitInstruction("stw", fp, sp, fpOffset, "save old frameptr");
-            output.emitInstruction("add", fp, sp, framesize, "setup new frameptr");
-            if (entry.outgoingAreaSize > -1) output.emitInstruction("stw", ret, fp, retOffset, "return adress");
+            output.emitInstruction("stw", fp, sp, fpOffset, "save old frame pointer");
+            output.emitInstruction("add", fp, sp, framesize, "setup new frame pointer");
+            if (entry.outgoingAreaSize > -1) output.emitInstruction("stw", ret, fp, retOffset, "save return register");
             procedureDeclaration.body.forEach(statement -> statement.accept(vistor));
-            if (entry.outgoingAreaSize > -1) output.emitInstruction("ldw", ret, fp, retOffset, "restore return adress");
+            if (entry.outgoingAreaSize > -1) output.emitInstruction("ldw", ret, fp, retOffset, "restore return register");
             output.emitInstruction("ldw", fp, sp, fpOffset, "restore old frame pointer");
             output.emitInstruction("add", sp, sp, framesize, "release frame");
             output.emitInstruction("jr", ret, "return");
         }
 
         public void visit(IntLiteral intLiteral) {
-            output.emitInstruction("add", new Register(registerPointer), zero, intLiteral.value, "value = " + intLiteral.value);
+            output.emitInstruction("add", new Register(registerPointer), zero, intLiteral.value);
             registerPointer++;
         }
 
@@ -140,7 +140,7 @@ public class CodeGenerator {
 
         public void visit(VariableExpression variableExpression) {
             variableExpression.variable.accept(this);
-            output.emitInstruction("ldw", new Register(registerPointer - 1), new Register(registerPointer - 1), zero);
+            output.emitInstruction("ldw", new Register(registerPointer - 1), new Register(registerPointer - 1), 0);
         }
 
         public void visit(AssignStatement assignStatement) {
@@ -193,6 +193,7 @@ public class CodeGenerator {
                 //if (procedureEntry.parameterTypes.get(i).isReference) ((VariableExpression) callStatement.argumentList.get(i)).variable.accept(this);
                 //else callStatement.argumentList.get(i).accept(this);
                 output.emitInstruction("stw", new Register(registerPointer-1), sp, procedureEntry.parameterTypes.get(i).offset, "store arg #" + i);
+                registerPointer--;
             }
             output.emitInstruction("jal", callStatement.procedureName.toString());
         }

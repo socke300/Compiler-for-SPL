@@ -156,7 +156,7 @@ public class CodeGenerator {
         public void visit(ArrayAccess arrayAccess) {
             arrayAccess.array.accept(this);
             arrayAccess.index.accept(this);
-            output.emitInstruction("add", new Register(registerPointer), zero, arrayAccess.dataType.byteSize * ((IntLiteral) arrayAccess.index).value);
+            output.emitInstruction("add", new Register(registerPointer), zero, ((ArrayType) arrayAccess.dataType).arraySize);
             registerPointer--;
             output.emitInstruction("bgeu", new Register(registerPointer), new Register(registerPointer - 1), "_indexError");
             output.emitInstruction("mul", new Register(registerPointer), new Register(registerPointer), arrayAccess.dataType.byteSize);

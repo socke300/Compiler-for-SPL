@@ -54,7 +54,7 @@ public class CodeGenerator {
         SymbolTable globalTable;
         int registerPointer = 8;
         String label;
-        int labelCount = 0;
+        int labelCount;
         Register zero = new Register(0);
         Register fp = new Register(25);
         Register sp = new Register(29);
@@ -62,6 +62,7 @@ public class CodeGenerator {
 
         CodeVisitor(SymbolTable symbolTable) {
             this.symbolTable = symbolTable;
+            this.labelCount = 0;
         }
         CodeVisitor(SymbolTable symbolTable, SymbolTable globalTable, int labelCount) {
             this.symbolTable = symbolTable;
@@ -93,6 +94,7 @@ public class CodeGenerator {
             output.emitInstruction("ldw", fp, sp, fpOffset, "restore old frame pointer");
             output.emitInstruction("add", sp, sp, framesize, "release frame");
             output.emitInstruction("jr", ret, "return");
+            System.out.println(vistor.labelCount);
             labelCount = vistor.labelCount;
         }
 

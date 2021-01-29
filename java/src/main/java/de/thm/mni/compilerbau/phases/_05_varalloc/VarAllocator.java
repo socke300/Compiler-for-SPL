@@ -83,10 +83,22 @@ public class VarAllocator {
 
         public void visit(ProcedureDeclaration procedureDeclaration) {
             ProcedureEntry entry = (ProcedureEntry) symbolTable.lookup(procedureDeclaration.name);
-            SymbolTable localTable = entry.localTable;
-            OutgoingAreaVisitor vistor = new OutgoingAreaVisitor(localTable);
-            procedureDeclaration.body.forEach(statement -> statement.accept(vistor));
-            entry.outgoingAreaSize = vistor.dataSize;
+            dataSize = -1;
+            procedureDeclaration.body.forEach(statement -> statement.accept(this));
+            entry.outgoingAreaSize = dataSize;
+        }
+
+        public void visit(CompoundStatement compoundStatement) {
+            compoundStatement.statements.forEach(statement -> statement.accept(this));
+        }
+
+        public void visit(IfStatement ifStatement) {
+            ifStatement.thenPart.accept(this);
+            ifStatement.elsePart.accept(this);
+        }
+
+        public void visit(WhileStatement whileStatement) {
+            whileStatement.body.accept(this);
         }
 
         public void visit(CallStatement callStatement) {

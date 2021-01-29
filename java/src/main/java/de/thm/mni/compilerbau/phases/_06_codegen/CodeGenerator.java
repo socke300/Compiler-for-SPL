@@ -58,6 +58,7 @@ public class CodeGenerator {
         int registerPointer = 8;
         String label;
         int labelCount = 0;
+        int index = 0;
         Register zero = new Register(0);
         Register fp = new Register(25);
         Register sp = new Register(29);
@@ -100,6 +101,7 @@ public class CodeGenerator {
         public void visit(IntLiteral intLiteral) {
             output.emitInstruction("add", new Register(registerPointer), zero, intLiteral.value, "value = " + intLiteral.value);
             registerPointer++;
+            index = intLiteral.value;
         }
 
         public void visit(BinaryExpression binaryExpression) {
@@ -156,7 +158,7 @@ public class CodeGenerator {
         public void visit(ArrayAccess arrayAccess) {
             arrayAccess.array.accept(this);
             arrayAccess.index.accept(this);
-            output.emitInstruction("add", new Register(registerPointer), zero, ((ArrayType) arrayAccess.dataType).arraySize);
+            output.emitInstruction("add", new Register(registerPointer), zero, index * arrayAccess.dataType.byteSize);
             registerPointer--;
             output.emitInstruction("bgeu", new Register(registerPointer), new Register(registerPointer - 1), "_indexError");
             output.emitInstruction("mul", new Register(registerPointer), new Register(registerPointer), arrayAccess.dataType.byteSize);

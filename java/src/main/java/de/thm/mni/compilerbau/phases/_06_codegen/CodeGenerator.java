@@ -63,9 +63,10 @@ public class CodeGenerator {
         CodeVisitor(SymbolTable symbolTable) {
             this.symbolTable = symbolTable;
         }
-        CodeVisitor(SymbolTable symbolTable, SymbolTable globalTable) {
+        CodeVisitor(SymbolTable symbolTable, SymbolTable globalTable, int labelCount) {
             this.symbolTable = symbolTable;
             this.globalTable = globalTable;
+            this.labelCount = labelCount;
         }
 
         public void visit(Program program) {
@@ -75,7 +76,7 @@ public class CodeGenerator {
         public void visit(ProcedureDeclaration procedureDeclaration) {
             ProcedureEntry entry = (ProcedureEntry) symbolTable.lookup(procedureDeclaration.name);
             SymbolTable localTable = entry.localTable;
-            CodeVisitor vistor = new CodeVisitor(localTable, symbolTable);
+            CodeVisitor vistor = new CodeVisitor(localTable, symbolTable, labelCount);
             output.emit("");
             output.emitExport(procedureDeclaration.name.toString());
             output.emitLabel(procedureDeclaration.name.toString());
@@ -92,6 +93,7 @@ public class CodeGenerator {
             output.emitInstruction("ldw", fp, sp, fpOffset, "restore old frame pointer");
             output.emitInstruction("add", sp, sp, framesize, "release frame");
             output.emitInstruction("jr", ret, "return");
+            labelCount = vistor.labelCount;
         }
 
         public void visit(IntLiteral intLiteral) {
@@ -153,7 +155,7 @@ public class CodeGenerator {
         public void visit(ArrayAccess arrayAccess) {
             arrayAccess.array.accept(this);
             arrayAccess.index.accept(this);
-            output.emitInstruction("add", new Register(registerPointer), zero, arrayAccess.array.dataType.byteSize/4, "test");
+            output.emitInstruction("add", new Register(registerPointer), zero, arrayAccess.array.dataType.byteSize/4);
             output.emitInstruction("bgeu", new Register(registerPointer - 1), new Register(registerPointer), "_indexError");
             registerPointer--;
             output.emitInstruction("mul", new Register(registerPointer), new Register(registerPointer), arrayAccess.dataType.byteSize);

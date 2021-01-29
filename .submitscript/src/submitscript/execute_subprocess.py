@@ -28,7 +28,8 @@ class SubprocessResult:
 
 
 def execute_subprocess(command: List[str], cwd: Optional[Path] = None, timeout: Optional[int] = None,
-                       capture_output: bool = True, stdin: Optional[str] = None, is_shell_command: bool = False) -> SubprocessResult:
+                       capture_output: bool = True, stdin: Optional[str] = None, is_shell_command: bool = False,
+                       merge_stdout_stderr: bool = False) -> SubprocessResult:
     import subprocess
 
     command_str = " ".join(command)
@@ -37,7 +38,7 @@ def execute_subprocess(command: List[str], cwd: Optional[Path] = None, timeout: 
         # With Python 3.7 we can use the capture_output and text parameters here
         result = subprocess.run(command, cwd=None if cwd is None else str(cwd), timeout=timeout, shell=is_shell_command,
                                 stdout=subprocess.PIPE if capture_output else None,
-                                stderr=subprocess.PIPE if capture_output else None,
+                                stderr=subprocess.STDOUT if merge_stdout_stderr else (subprocess.PIPE if capture_output else None),
                                 encoding="utf-8", input=stdin)
 
         return SubprocessResult(command_str, result.returncode, stdout=result.stdout, stderr=result.stderr)

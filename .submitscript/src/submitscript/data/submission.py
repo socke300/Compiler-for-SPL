@@ -1,4 +1,7 @@
+from enum import Enum
 from pathlib import Path
+from typing import Union, Dict, List, Optional
+
 from typing.io import IO
 
 from submitscript import data
@@ -6,7 +9,41 @@ from submitscript.api.api import SubmissionRoutes
 from submitscript.api.types import ApiSerializableSubmissionResponse, ApiSerializableSubmission
 from submitscript.data.team import Team
 from submitscript.util.prompt import prompt, YesNoParser
-from submitscript.util.properties import TextFileProperty, JsonProperty
+from submitscript.util.properties import TextFileProperty, JsonProperty, Property
+from submitscript.util.serialize import SerializableData, deserialize_enum, serialize_enum
+
+
+class SubmissionStatus(Enum):
+    in_construction = "in_construction"
+    rejected = "rejected"
+    accepted = "accepted"
+    removed = "removed"
+    evaluated = "evaluated"
+
+    @staticmethod
+    def deserialize(obj: str) -> 'SubmissionStatus':
+        return deserialize_enum(SubmissionStatus, obj)
+
+    def serialize(self) -> str:
+        return serialize_enum(self)
+
+
+class SubmissionBookkeeping(SerializableData):
+    def __init__(self, status: SubmissionStatus):
+        self.status = status
+
+    @classmethod
+    def deserialize_impl(cls, obj: Union[Dict, List]) -> 'SubmissionBookkeeping':
+        SubmissionBookkeeping.require_type(obj, dict)
+
+        return SubmissionBookkeeping(
+            SubmissionStatus.deserialize(obj["status"])
+        )
+
+    def serialize(self) -> Union[Dict, List]:
+        return {
+            "status": self.status.serialize()
+        }
 
 
 class Submission:
@@ -20,7 +57,8 @@ class Submission:
         self.upload_tgz_path = path / "upload.tgz"
 
         # Paths for files that relate to the submission response or evaluation result
-        self.submission_data = TextFileProperty(path / "submission.json").json_serialized(ApiSerializableSubmission).cached()
+        self.bookkeeping_data: Property[SubmissionBookkeeping] = TextFileProperty(path / "bookkeeping.json").json_serialized(SubmissionBookkeeping).cached()
+        self.submission_data: Property[ApiSerializableSubmission] = TextFileProperty(path / "submission.json").json_serialized(ApiSerializableSubmission).cached()
         self.submission_response = TextFileProperty(path / "submission_response.json").json_serialized(ApiSerializableSubmissionResponse).cached()
         self.evaluation_log = TextFileProperty(path / "evaluation.log")
         self.submission_log = TextFileProperty(path / "submit.log")
@@ -35,17 +73,31 @@ class Submission:
         import shutil
         shutil.copyfileobj(file, self.upload_tgz_path.open("wb"))
 
-    def is_accepted(self) -> bool:
-        return self.submission_response.has_value() and self.submission_response.get().accepted
-
-    def is_evaluated(self) -> bool:
-        return self.is_accepted() and self.submission_data.get().evaluation_result is not None
-
     def rename(self, name: str):
-        self.__init__(self.parent, self.path.rename(self.path.with_name(name)))
+        # This workaround is needed because Path.rename does not return the new path in python version before 3.8
+        new_path = self.path.with_name(name)
+        self.path.rename(new_path)
 
-    def rename_with_prefix(self, prefix: str):
-        self.rename("%s_%s" % (prefix, self.path.name))
+        # Recall __init__ to update all property paths
+        self.__init__(self.parent, new_path)
+
+    def update_name(self, new_id: Optional[str] = None):
+        import re
+        matched = re.search("(\[(.*)])?\s*(.+)", self.path.name)
+        tag = matched.group(2)
+        old_id = matched.group(3)
+
+        self.rename("[%s] %s" % (self.bookkeeping_data.get().status.value, new_id or old_id))
+
+    def set_status(self, status: SubmissionStatus, new_id: Optional[str] = None):
+        bookkeeping = self.bookkeeping_data.get()
+        if bookkeeping is None:
+            bookkeeping = SubmissionBookkeeping(status)
+        else:
+            bookkeeping.status = status
+
+        self.bookkeeping_data.set(bookkeeping)
+        self.update_name(new_id)
 
     def submit(self) -> bool:
         print("=== Starting Upload ===")
@@ -60,12 +112,15 @@ class Submission:
 
         if not self.submission_response.get().accepted:
             print("Submitting your solution failed. Please see the upload log above for more details.")
-            self.rename_with_prefix("REJECTED")
+            self.set_status(SubmissionStatus.rejected)
             return False
         else:
             print("Successfully submitted your solution. Please see the upload log above for more details.")
-            self.rename(self.submission_response.get().submission.submission_id)
-            self.wait_for_evaluation_results()
+            self.set_status(SubmissionStatus.accepted, self.submission_response.get().submission.submission_id)
+
+            if self.submission_response.get().immediate_evaluation:
+                self.wait_for_evaluation_results()
+
             return True
 
     def prompt_evaluation_wait(self):
@@ -75,15 +130,30 @@ class Submission:
         if prompt("This submission will be evaluated immediately. Do you want to wait for results now?", YesNoParser(True)):
             self.wait_for_evaluation_results()
 
-    def check_for_evaluation_results(self) -> bool:
-        if self.get_backend().is_evaluated():
+    def check_for_evaluation_results(self) -> Optional[bool]:
+        if self.bookkeeping_data.get().status != SubmissionStatus.accepted:
+            print("Error: Can only check for results of accepted submissions. Please report this as a bug in the script.")
+            return None
+
+        evaluated = self.get_backend().is_evaluated()
+
+        if evaluated is None:
+            print("- Submission '%s' can no longer be found on the server and will be marked as [removed]." % self.submission_data.get().submission_id)
+            self.set_status(SubmissionStatus.removed)
+            return None
+        elif evaluated:
             self.submission_data.set(self.get_backend().get(True))
             self.evaluation_log.set(self.submission_data.get().evaluation_result.log)
+
+            self.set_status(SubmissionStatus.evaluated)
+
             print("\n=== Evaluation results for submission '%s' retrieved. ===" % self.submission_data.get().submission_id)
 
             return True
 
-    def print_evaluation_results(self):
+        return False
+
+    def print_evaluation_results(self) -> None:
         score_percentage = \
             100 * self.submission_data.get().evaluation_result.score / self.submission_data.get().evaluation_result.max_score \
                 if self.submission_data.get().evaluation_result.max_score != 0 \
@@ -115,11 +185,19 @@ class Submission:
 
         try:
             import time
-            while not self.check_for_evaluation_results():
+
+            while True:
+                results_found = self.check_for_evaluation_results()
+
+                if results_found:
+                    self.print_evaluation_results()
+                    break
+                if results_found is None:
+                    break
+
                 print(".", end="", flush=True)
                 time.sleep(1)
 
-            self.print_evaluation_results()
         except KeyboardInterrupt:
             print("\nResult polling aborted.")
 

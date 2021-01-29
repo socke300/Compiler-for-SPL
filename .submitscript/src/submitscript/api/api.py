@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 import requests
 import semver
@@ -13,8 +13,13 @@ class SubmissionRoutes:
         self.parent = parent
         self.base_url = parent.base_url + ("/%s" % submission_id)
 
-    def is_evaluated(self) -> bool:
-        return requests.get(self.base_url + "/m/is_evaluated").json()
+    def is_evaluated(self) -> Optional[bool]:
+        result = requests.get(self.base_url + "/m/is_evaluated")
+
+        if result.status_code == 404:
+            return None
+
+        return result.json()
 
     def get(self, include_eval_log: bool) -> ApiSerializableSubmission:
         return ApiSerializableSubmission.deserialize(requests.get(self.base_url, params={"include_eval_log": include_eval_log}).json())

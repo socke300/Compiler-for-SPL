@@ -1,0 +1,23 @@
+{
+    "accepted": true,
+    "immediate_evaluation": true,
+    "log": "[2021-01-29 18:03:26.057645] Received submission 66bb088b-81f9-43ce-8e1b-a9ac8f397a27\n[2021-01-29 18:03:26.058332] Ip: 10.196.99.14\n[2021-01-29 18:03:26.058440] Team members: [('M\u00fcnch', 'Dominik', '5302004'), ('Gode', 'Marcel', '5277676')]\n[2021-01-29 18:03:26.326638] Your submission was ACCEPTED for course 'Compilerbau-ws20', assignment 'Aufgabe-2'.\n[2021-01-29 18:03:26.326838] Your submission has the id 66bb088b-81f9-43ce-8e1b-a9ac8f397a27.\n[2021-01-29 18:03:26.327068] It will be evaluated shortly. Please check back soon for your results.\n",
+    "submission": {
+        "authors": [
+            {
+                "first_name": "Dominik",
+                "last_name": "M\u00fcnch",
+                "matriculation_number": "5302004"
+            },
+            {
+                "first_name": "Marcel",
+                "last_name": "Gode",
+                "matriculation_number": "5277676"
+            }
+        ],
+        "evaluation_result": null,
+        "id": "66bb088b-81f9-43ce-8e1b-a9ac8f397a27",
+        "timestamp_ns": 1611939806054265043,
+        "upload_log": "[2021-01-29 18:03:26.057645] Received submission 66bb088b-81f9-43ce-8e1b-a9ac8f397a27\n[2021-01-29 18:03:26.058332] Ip: 10.196.99.14\n[2021-01-29 18:03:26.058440] Team members: [('M\u00fcnch', 'Dominik', '5302004'), ('Gode', 'Marcel', '5277676')]\n[2021-01-29 18:03:26.326638] Your submission was ACCEPTED for course 'Compilerbau-ws20', assignment 'Aufgabe-2'.\n[2021-01-29 18:03:26.326838] Your submission has the id 66bb088b-81f9-43ce-8e1b-a9ac8f397a27.\n[2021-01-29 18:03:26.327068] It will be evaluated shortly. Please check back soon for your results.\n\n"
+    }
+}

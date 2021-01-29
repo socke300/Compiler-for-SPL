@@ -1,0 +1,528 @@
+[2021-01-29 18:03:26.327606] Start of evaluation log for submission '66bb088b-81f9-43ce-8e1b-a9ac8f397a27'.
+[2021-01-29 18:03:26.327699] Team member: ('Münch', 'Dominik', '5302004')
+[2021-01-29 18:03:26.327786] Team member: ('Gode', 'Marcel', '5277676')
+[2021-01-29 18:03:26.358981] Preparing the sandbox
+[2021-01-29 18:03:27.677212] Unpacking submission in sandbox
+[2021-01-29 18:03:28.117206] Building the test subject
+[2021-01-29 18:03:28.117371] Identified the Java variant.
+[2021-01-29 18:03:28.262146] Building Java solution with maven.
+[2021-01-29 18:03:40.172239] Maven log:
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< de.thm.mni.compilerbau.spl-reference:spl >--------------
+[INFO] Building spl 0.1
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jflex-maven-plugin:1.7.0:generate (default) @ spl ---
+[INFO]   generated /home/solution/java/target/generated-sources/jflex/de/thm/mni/compilerbau/phases/_01_scanner/Scanner.java
+[INFO] 
+[INFO] --- cup-maven-plugin:11b-20160615:generate (default) @ spl ---
+Warning : *** Shift/Reduce conflict found in state #81
+  between ifStatement ::= IF LPAREN booleanExpression RPAREN statement (*) 
+  and     ifStatement ::= IF LPAREN booleanExpression RPAREN statement (*) ELSE statement 
+  under symbol ELSE
+  Resolved in favor of shifting.
+
+[INFO]   generated /home/solution/java/target/generated-sources/cup/de/thm/mni/compilerbau/phases/_02_03_parser/Parser.java
+[INFO]   generated /home/solution/java/target/generated-sources/cup/de/thm/mni/compilerbau/phases/_02_03_parser/Sym.java
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ spl ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/solution/java/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ spl ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 52 source files to /home/solution/java/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ spl ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/solution/java/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ spl ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ spl ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ spl ---
+[INFO] Building jar: /home/solution/java/target/spl.jar
+[INFO] 
+[INFO] --- maven-shade-plugin:3.1.0:shade (default) @ spl ---
+[INFO] Including com.github.vbmacher:java-cup-runtime:jar:11b-20160615 in the shaded jar.
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing /home/solution/java/target/spl.jar with /home/solution/java/target/spl-0.1-shaded.jar
+[INFO] Dependency-reduced POM written at: /home/solution/java/dependency-reduced-pom.xml
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.375 s
+[INFO] Finished at: 2021-01-29T17:03:40Z
+[INFO] ------------------------------------------------------------------------
+[2021-01-29 18:03:40.321370] Beginning evaluation.
+[2021-01-29 18:03:40.321617] Evaluating 101_undefined_type.spl with the submitted solution.
+[2021-01-29 18:03:40.640857] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:40.640886] Exit code matches the expected exit code (101).
+[2021-01-29 18:03:40.640915] Test passed.
+[2021-01-29 18:03:40.640924] Running Score: 1/1
+
+[2021-01-29 18:03:40.640938] Evaluating 102_not_a_type.spl with the submitted solution.
+[2021-01-29 18:03:40.965387] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:40.965407] Exit code matches the expected exit code (102).
+[2021-01-29 18:03:40.965432] Test passed.
+[2021-01-29 18:03:40.965442] Running Score: 2/2
+
+[2021-01-29 18:03:40.965456] Evaluating 103_redeclaration_as_type.spl with the submitted solution.
+[2021-01-29 18:03:41.283916] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:41.283936] Exit code matches the expected exit code (103).
+[2021-01-29 18:03:41.283969] Test passed.
+[2021-01-29 18:03:41.283977] Running Score: 3/3
+
+[2021-01-29 18:03:41.283991] Evaluating 104_must_be_reference_parameter.spl with the submitted solution.
+[2021-01-29 18:03:41.595272] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:41.595298] Exit code matches the expected exit code (104).
+[2021-01-29 18:03:41.595324] Test passed.
+[2021-01-29 18:03:41.595333] Running Score: 4/4
+
+[2021-01-29 18:03:41.595346] Evaluating 105_redeclaration_as_procedure.spl with the submitted solution.
+[2021-01-29 18:03:41.918305] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:41.918329] Exit code matches the expected exit code (105).
+[2021-01-29 18:03:41.918354] Test passed.
+[2021-01-29 18:03:41.918362] Running Score: 5/5
+
+[2021-01-29 18:03:41.918375] Evaluating 106_redeclaration_as_parameter.spl with the submitted solution.
+[2021-01-29 18:03:42.233506] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:42.233527] Exit code matches the expected exit code (106).
+[2021-01-29 18:03:42.233551] Test passed.
+[2021-01-29 18:03:42.233559] Running Score: 6/6
+
+[2021-01-29 18:03:42.233572] Evaluating 107_redeclaration_as_variable.spl with the submitted solution.
+[2021-01-29 18:03:42.550584] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:42.550605] Exit code matches the expected exit code (107).
+[2021-01-29 18:03:42.550630] Test passed.
+[2021-01-29 18:03:42.550638] Running Score: 7/7
+
+[2021-01-29 18:03:42.550652] Evaluating 112_undefined_procedure.spl with the submitted solution.
+[2021-01-29 18:03:42.871846] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:42.871869] Exit code matches the expected exit code (112).
+[2021-01-29 18:03:42.871893] Test passed.
+[2021-01-29 18:03:42.871902] Running Score: 8/8
+
+[2021-01-29 18:03:42.871915] Evaluating 113_call_of_non_procedure.spl with the submitted solution.
+[2021-01-29 18:03:43.188941] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:43.188964] Exit code matches the expected exit code (113).
+[2021-01-29 18:03:43.188987] Test passed.
+[2021-01-29 18:03:43.188996] Running Score: 9/9
+
+[2021-01-29 18:03:43.189011] Evaluating 114_argument_type_mismatch.spl with the submitted solution.
+[2021-01-29 18:03:43.546329] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:43.546349] Exit code matches the expected exit code (114).
+[2021-01-29 18:03:43.546374] Test passed.
+[2021-01-29 18:03:43.546382] Running Score: 10/10
+
+[2021-01-29 18:03:43.546396] Evaluating 115_argument_must_be_variable.spl with the submitted solution.
+[2021-01-29 18:03:43.875239] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:43.875261] Exit code matches the expected exit code (115).
+[2021-01-29 18:03:43.875290] Test passed.
+[2021-01-29 18:03:43.875299] Running Score: 11/11
+
+[2021-01-29 18:03:43.875312] Evaluating 116_procedure_too_few_arguments.spl with the submitted solution.
+[2021-01-29 18:03:44.198185] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:44.198207] Exit code matches the expected exit code (116).
+[2021-01-29 18:03:44.198231] Test passed.
+[2021-01-29 18:03:44.198240] Running Score: 12/12
+
+[2021-01-29 18:03:44.198253] Evaluating 117_procedure_too_many_arguments.spl with the submitted solution.
+[2021-01-29 18:03:44.522540] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:44.522559] Exit code matches the expected exit code (117).
+[2021-01-29 18:03:44.522585] Test passed.
+[2021-01-29 18:03:44.522593] Running Score: 13/13
+
+[2021-01-29 18:03:44.522607] Evaluating 121_undefined_variable.spl with the submitted solution.
+[2021-01-29 18:03:44.861429] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:44.861450] Exit code matches the expected exit code (121).
+[2021-01-29 18:03:44.861476] Test passed.
+[2021-01-29 18:03:44.861485] Running Score: 14/14
+
+[2021-01-29 18:03:44.861499] Evaluating 122_not_a_variable.spl with the submitted solution.
+[2021-01-29 18:03:45.187830] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:45.187852] Exit code matches the expected exit code (122).
+[2021-01-29 18:03:45.187877] Test passed.
+[2021-01-29 18:03:45.187888] Running Score: 15/15
+
+[2021-01-29 18:03:45.187902] Evaluating 123_indexing_non_array.spl with the submitted solution.
+[2021-01-29 18:03:45.515945] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:45.515965] Exit code matches the expected exit code (123).
+[2021-01-29 18:03:45.515990] Test passed.
+[2021-01-29 18:03:45.515998] Running Score: 16/16
+
+[2021-01-29 18:03:45.516012] Evaluating 124_indexing_with_non_integer.spl with the submitted solution.
+[2021-01-29 18:03:45.843156] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:45.843180] Exit code matches the expected exit code (124).
+[2021-01-29 18:03:45.843208] Test passed.
+[2021-01-29 18:03:45.843217] Running Score: 17/17
+
+[2021-01-29 18:03:45.843232] Evaluating 126_main_not_a_procedure.spl with the submitted solution.
+[2021-01-29 18:03:46.158450] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:46.158473] Exit code matches the expected exit code (126).
+[2021-01-29 18:03:46.158500] Test passed.
+[2021-01-29 18:03:46.158508] Running Score: 18/18
+
+[2021-01-29 18:03:46.158523] Evaluating 127_main_must_not_have_parameters.spl with the submitted solution.
+[2021-01-29 18:03:46.494430] Test subject results match (Compiler Failure).
+[2021-01-29 18:03:46.494450] Exit code matches the expected exit code (127).
+[2021-01-29 18:03:46.494476] Test passed.
+[2021-01-29 18:03:46.494484] Running Score: 19/19
+
+[2021-01-29 18:03:46.494498] Evaluating acker.spl with the submitted solution.
+[2021-01-29 18:03:47.067305] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:47.067388] Output (stdout + stderr) of '/home/tools/as -o /home/temp/acker.spl.o /home/temp/acker.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 23
+[2021-01-29 18:03:47.067421] Test not passed.
+[2021-01-29 18:03:47.067428] Running Score: 19/20
+
+[2021-01-29 18:03:47.067445] Evaluating bigtest.spl with the submitted solution.
+[2021-01-29 18:03:47.755835] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:03:47.755899] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/bigtest.spl /home/temp/bigtest.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.BinaryExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.BinaryExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.BinaryExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.BinaryExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:157)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:03:47.755935] Test not passed.
+[2021-01-29 18:03:47.755943] Running Score: 19/21
+
+[2021-01-29 18:03:47.755957] Evaluating bits.spl with the submitted solution.
+[2021-01-29 18:03:48.174153] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:03:48.174212] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/bits.spl /home/temp/bits.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:03:48.174251] Test not passed.
+[2021-01-29 18:03:48.174259] Running Score: 19/22
+
+[2021-01-29 18:03:48.174273] Evaluating gcd.spl with the submitted solution.
+[2021-01-29 18:03:48.755254] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:48.755305] Output (stdout + stderr) of '/home/tools/as -o /home/temp/gcd.spl.o /home/temp/gcd.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 29
+[2021-01-29 18:03:48.755335] Test not passed.
+[2021-01-29 18:03:48.755343] Running Score: 19/23
+
+[2021-01-29 18:03:48.755359] Evaluating inttest.spl with the submitted solution.
+[2021-01-29 18:03:49.286213] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:49.286264] Output (stdout + stderr) of '/home/tools/as -o /home/temp/inttest.spl.o /home/temp/inttest.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 35
+[2021-01-29 18:03:49.286289] Test not passed.
+[2021-01-29 18:03:49.286296] Running Score: 19/24
+
+[2021-01-29 18:03:49.286312] Evaluating multiply.spl with the submitted solution.
+[2021-01-29 18:03:49.854094] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:49.854146] Output (stdout + stderr) of '/home/tools/as -o /home/temp/multiply.spl.o /home/temp/multiply.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 30
+[2021-01-29 18:03:49.854171] Test not passed.
+[2021-01-29 18:03:49.854179] Running Score: 19/25
+
+[2021-01-29 18:03:49.854195] Evaluating partind1.spl with the submitted solution.
+[2021-01-29 18:03:50.281311] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:03:50.281370] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/partind1.spl /home/temp/partind1.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:03:50.281408] Test not passed.
+[2021-01-29 18:03:50.281416] Running Score: 19/26
+
+[2021-01-29 18:03:50.281432] Evaluating partind2.spl with the submitted solution.
+[2021-01-29 18:03:50.782895] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:03:50.782952] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/partind2.spl /home/temp/partind2.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:157)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:188)
+	at de.thm.mni.compilerbau.absyn.IfStatement.accept(IfStatement.java:32)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:03:50.782986] Test not passed.
+[2021-01-29 18:03:50.782994] Running Score: 19/27
+
+[2021-01-29 18:03:50.783008] Evaluating swap.spl with the submitted solution.
+[2021-01-29 18:03:51.325333] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:51.325387] Output (stdout + stderr) of '/home/tools/as -o /home/temp/swap.spl.o /home/temp/swap.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 23
+[2021-01-29 18:03:51.325412] Test not passed.
+[2021-01-29 18:03:51.325419] Running Score: 19/28
+
+[2021-01-29 18:03:51.325438] Evaluating test1.spl with the submitted solution.
+[2021-01-29 18:03:51.888932] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:51.888983] Output (stdout + stderr) of '/home/tools/as -o /home/temp/test1.spl.o /home/temp/test1.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 29
+[2021-01-29 18:03:51.889008] Test not passed.
+[2021-01-29 18:03:51.889015] Running Score: 19/29
+
+[2021-01-29 18:03:51.889031] Evaluating test2.spl with the submitted solution.
+[2021-01-29 18:03:52.430441] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:52.430491] Output (stdout + stderr) of '/home/tools/as -o /home/temp/test2.spl.o /home/temp/test2.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 23
+[2021-01-29 18:03:52.430519] Test not passed.
+[2021-01-29 18:03:52.430527] Running Score: 19/30
+
+[2021-01-29 18:03:52.430543] Evaluating test3.spl with the submitted solution.
+[2021-01-29 18:03:52.925259] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:03:52.925314] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/test3.spl /home/temp/test3.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.BinaryExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.BinaryExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.BinaryExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.BinaryExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:145)
+	at de.thm.mni.compilerbau.absyn.VariableExpression.accept(VariableExpression.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:106)
+	at de.thm.mni.compilerbau.absyn.BinaryExpression.accept(BinaryExpression.java:79)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:184)
+	at de.thm.mni.compilerbau.absyn.IfStatement.accept(IfStatement.java:32)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:03:52.925347] Test not passed.
+[2021-01-29 18:03:52.925355] Running Score: 19/31
+
+[2021-01-29 18:03:52.925368] Evaluating test4.spl with the submitted solution.
+[2021-01-29 18:03:53.498576] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:53.498634] Output (stdout + stderr) of '/home/tools/as -o /home/temp/test4.spl.o /home/temp/test4.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 26
+[2021-01-29 18:03:53.498661] Test not passed.
+[2021-01-29 18:03:53.498668] Running Score: 19/32
+
+[2021-01-29 18:03:53.498685] Evaluating test5.spl with the submitted solution.
+[2021-01-29 18:03:54.043238] Toolchain resulted in 'Assembler Failure', which is not supposed to happen for working solutions. The associated log is listed below.
+[2021-01-29 18:03:54.043288] Output (stdout + stderr) of '/home/tools/as -o /home/temp/test5.spl.o /home/temp/test5.spl.s' (Limited to 50 lines/10000 characters):
+Error: illegal primary expression, line 27
+[2021-01-29 18:03:54.043313] Test not passed.
+[2021-01-29 18:03:54.043320] Running Score: 19/33
+
+[2021-01-29 18:03:54.043336] Evaluating test7.spl with the submitted solution.
+[2021-01-29 18:04:14.913320] Error: 'xvfb-run -a /home/tools/sim -x -l /home/temp/test7.spl.bin -s 1 -t 0' timed out!'
+[2021-01-29 18:04:14.913542] Test not passed.
+[2021-01-29 18:04:14.913632] Running Score: 19/34
+
+[2021-01-29 18:04:14.913793] Evaluating test8.spl with the submitted solution.
+[2021-01-29 18:04:15.654014] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:04:15.654189] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/test8.spl /home/temp/test8.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.BinaryExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.BinaryExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.BinaryExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.BinaryExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:04:15.654380] Test not passed.
+[2021-01-29 18:04:15.654472] Running Score: 19/35
+
+[2021-01-29 18:04:15.654617] Evaluating test9.spl with the submitted solution.
+[2021-01-29 18:04:37.175804] Error: 'xvfb-run -a /home/tools/sim -x -l /home/temp/test9.spl.bin -s 1 -t 0' timed out!'
+[2021-01-29 18:04:37.176024] Test not passed.
+[2021-01-29 18:04:37.177013] Running Score: 19/36
+
+[2021-01-29 18:04:37.177198] Evaluating threedim.spl with the submitted solution.
+[2021-01-29 18:04:38.252971] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:04:38.253148] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/threedim.spl /home/temp/threedim.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:157)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:157)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:185)
+	at de.thm.mni.compilerbau.absyn.IfStatement.accept(IfStatement.java:32)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:04:38.253631] Test not passed.
+[2021-01-29 18:04:38.253719] Running Score: 19/37
+
+[2021-01-29 18:04:38.253862] Evaluating twodim.spl with the submitted solution.
+[2021-01-29 18:04:39.176281] Submission exited with exit code 1, which is not allowed. Allowed: [0, 99, 140, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+[2021-01-29 18:04:39.176473] Output (stdout + stderr) of 'java -jar /home/solution/java/target/spl.jar /home/tests/twodim.spl /home/temp/twodim.spl.s' (Limited to 50 lines/10000 characters):
+An error occurred: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+java.lang.ClassCastException: class de.thm.mni.compilerbau.absyn.VariableExpression cannot be cast to class de.thm.mni.compilerbau.absyn.IntLiteral (de.thm.mni.compilerbau.absyn.VariableExpression and de.thm.mni.compilerbau.absyn.IntLiteral are in unnamed module of loader 'app')
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:159)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:157)
+	at de.thm.mni.compilerbau.absyn.ArrayAccess.accept(ArrayAccess.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:150)
+	at de.thm.mni.compilerbau.absyn.AssignStatement.accept(AssignStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:185)
+	at de.thm.mni.compilerbau.absyn.IfStatement.accept(IfStatement.java:32)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$3(CodeGenerator.java:204)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:204)
+	at de.thm.mni.compilerbau.absyn.CompoundStatement.accept(CompoundStatement.java:30)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:175)
+	at de.thm.mni.compilerbau.absyn.WhileStatement.accept(WhileStatement.java:29)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$1(CodeGenerator.java:93)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:93)
+	at de.thm.mni.compilerbau.absyn.ProcedureDeclaration.accept(ProcedureDeclaration.java:48)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.lambda$visit$0(CodeGenerator.java:75)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator$CodeVisitor.visit(CodeGenerator.java:75)
+	at de.thm.mni.compilerbau.absyn.Program.accept(Program.java:28)
+	at de.thm.mni.compilerbau.phases._06_codegen.CodeGenerator.generateCode(CodeGenerator.java:52)
+	at de.thm.mni.compilerbau.Main.main(Main.java:155)
+[2021-01-29 18:04:39.176773] Test not passed.
+[2021-01-29 18:04:39.176860] Running Score: 19/38
+
+[2021-01-29 18:04:39.177116] Final score: 19/38 (50%). 
+[2021-01-29 18:04:39.177204] 80% are needed to pass.
+[2021-01-29 18:04:39.470474] You have NOT PASSED this assignment.
+[2021-01-29 18:04:39.470594] You can try again. Deadline: 15.02.2021 12:00
+

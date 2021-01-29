@@ -168,15 +168,12 @@ public class CodeGenerator {
         public void visit(WhileStatement whileStatement) {
             String label0 = "L" + labelCount++;
             String label1 = "L" + labelCount++;
-            String label2 = "L" + labelCount++;
             output.emitLabel(label0);
             label = label1;
             whileStatement.condition.accept(this);
-            output.emitInstruction("j", label2);
-            output.emitLabel(label1);
             whileStatement.body.accept(this);
             output.emitInstruction("j", label0);
-            output.emitLabel(label2);
+            output.emitLabel(label1);
         }
 
         public void visit(IfStatement ifStatement) {

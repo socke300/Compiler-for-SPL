@@ -64,6 +64,7 @@ public class CodeGenerator {
             this.symbolTable = symbolTable;
             this.labelCount = 0;
         }
+
         CodeVisitor(SymbolTable symbolTable, SymbolTable globalTable, int labelCount) {
             this.symbolTable = symbolTable;
             this.globalTable = globalTable;
@@ -90,11 +91,11 @@ public class CodeGenerator {
             output.emitInstruction("add", fp, sp, framesize, "setup new frame pointer");
             if (entry.outgoingAreaSize > -1) output.emitInstruction("stw", ret, fp, retOffset, "save return register");
             procedureDeclaration.body.forEach(statement -> statement.accept(vistor));
-            if (entry.outgoingAreaSize > -1) output.emitInstruction("ldw", ret, fp, retOffset, "restore return register");
+            if (entry.outgoingAreaSize > -1)
+                output.emitInstruction("ldw", ret, fp, retOffset, "restore return register");
             output.emitInstruction("ldw", fp, sp, fpOffset, "restore old frame pointer");
             output.emitInstruction("add", sp, sp, framesize, "release frame");
             output.emitInstruction("jr", ret, "return");
-            System.out.println(vistor.labelCount);
             labelCount = vistor.labelCount;
         }
 
@@ -120,22 +121,22 @@ public class CodeGenerator {
                     output.emitInstruction("div", new Register(registerPointer - 2), new Register(registerPointer - 2), new Register(registerPointer - 1));
                     break;
                 case EQU:
-                    output.emitInstruction("beq", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
-                    break;
-                case NEQ:
                     output.emitInstruction("bne", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
                     break;
+                case NEQ:
+                    output.emitInstruction("beq", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
+                    break;
                 case LST:
-                    output.emitInstruction("blt", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
-                    break;
-                case LSE:
-                    output.emitInstruction("ble", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
-                    break;
-                case GRE:
                     output.emitInstruction("bge", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
                     break;
-                case GRT:
+                case LSE:
                     output.emitInstruction("bgt", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
+                    break;
+                case GRE:
+                    output.emitInstruction("blt", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
+                    break;
+                case GRT:
+                    output.emitInstruction("ble", new Register(registerPointer - 2), new Register(registerPointer - 1), label);
                     break;
             }
             if (!(binaryExpression.operator.isArithmetic())) registerPointer--;
@@ -157,11 +158,11 @@ public class CodeGenerator {
         public void visit(ArrayAccess arrayAccess) {
             arrayAccess.array.accept(this);
             arrayAccess.index.accept(this);
-            output.emitInstruction("add", new Register(registerPointer), zero, arrayAccess.array.dataType.byteSize/4);
+            output.emitInstruction("add", new Register(registerPointer), zero, arrayAccess.array.dataType.byteSize / 4);
             output.emitInstruction("bgeu", new Register(registerPointer - 1), new Register(registerPointer), "_indexError");
             registerPointer--;
             output.emitInstruction("mul", new Register(registerPointer), new Register(registerPointer), arrayAccess.dataType.byteSize);
-            output.emitInstruction("add", new Register(registerPointer-1), new Register(registerPointer-1), new Register(registerPointer));
+            output.emitInstruction("add", new Register(registerPointer - 1), new Register(registerPointer - 1), new Register(registerPointer));
         }
 
         public void visit(WhileStatement whileStatement) {
@@ -179,24 +180,26 @@ public class CodeGenerator {
         }
 
         public void visit(IfStatement ifStatement) {
-            String label1 = "L" + labelCount++;
-            String label2 = "L" + labelCount++;
-            label = label1;
+            String label0 = "L" + labelCount++;
+            label = label0;
             ifStatement.condition.accept(this);
-            if (ifStatement.elsePart != null) ifStatement.elsePart.accept(this);
-            output.emitInstruction("j", label2);
-            output.emitLabel(label1);
             ifStatement.thenPart.accept(this);
-            output.emitLabel(label2);
+            if (!(ifStatement.elsePart instanceof EmptyStatement)) {
+                String label1 = "L" + labelCount++;
+                output.emitInstruction("j", label1);
+                output.emitLabel(label0);
+                ifStatement.elsePart.accept(this);
+                output.emitLabel(label1);
+            } else output.emitLabel(label0);
         }
 
         public void visit(CallStatement callStatement) {
             callStatement.argumentList.forEach(expression -> expression.accept(this));
             ProcedureEntry procedureEntry = (ProcedureEntry) globalTable.lookup(callStatement.procedureName);
-            for (int i = 0; i < callStatement.argumentList.size(); i++){
+            for (int i = 0; i < callStatement.argumentList.size(); i++) {
                 //if (procedureEntry.parameterTypes.get(i).isReference) ((VariableExpression) callStatement.argumentList.get(i)).variable.accept(this);
                 //else callStatement.argumentList.get(i).accept(this);
-                output.emitInstruction("stw", new Register(registerPointer-1), sp, procedureEntry.parameterTypes.get(i).offset, "store arg #" + i);
+                output.emitInstruction("stw", new Register(registerPointer - 1), sp, procedureEntry.parameterTypes.get(i).offset, "store arg #" + i);
                 registerPointer--;
             }
             output.emitInstruction("jal", callStatement.procedureName.toString());

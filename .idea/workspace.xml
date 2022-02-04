@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/dm" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1f2a2096-d8fa-4883-9b9a-4da1f17b070e" name="Default Changelist" comment="." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="marcel" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.1.2\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1l3vzxUb9F90hbZewwUGpFYZ10a" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RunManager" selected="Application.Absyn">
+    <configuration name="Absyn" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
+      <module name="spl" />
+      <option name="PROGRAM_PARAMETERS" value="--absyn java/src/runtime_tests/bigtest.spl" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thm.mni.compilerbau.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Parser" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
+      <module name="spl" />
+      <option name="PROGRAM_PARAMETERS" value="--parse java/src/runtime_tests/bigtest.spl" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thm.mni.compilerbau.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Scanner" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="de.thm.mni.compilerbau.Main" />
+      <module name="spl" />
+      <option name="PROGRAM_PARAMETERS" value="--tokens java/src/runtime_tests/bigtest.spl" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thm.mni.compilerbau.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="compiler-for-spl" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="compiler-for-spl" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Absyn" />
+      <item itemvalue="Application.Scanner" />
+      <item itemvalue="Application.Parser" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Parser" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1f2a2096-d8fa-4883-9b9a-4da1f17b070e" name="Default Changelist" comment="" />
+      <created>1606838856254</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606838856254</updated>
+      <workItem from="1606838857507" duration="1744000" />
+      <workItem from="1606844482644" duration="615000" />
+      <workItem from="1606853874190" duration="4977000" />
+      <workItem from="1606929147777" duration="611000" />
+      <workItem from="1606996051393" duration="41000" />
+      <workItem from="1606999846565" duration="573000" />
+      <workItem from="1607000931630" duration="873000" />
+      <workItem from="1607050033103" duration="177000" />
+      <workItem from="1607101089224" duration="2000" />
+      <workItem from="1607340785508" duration="3031000" />
+      <workItem from="1607691350335" duration="597000" />
+      <workItem from="1608036374102" duration="3828000" />
+      <workItem from="1608046828098" duration="2967000" />
+      <workItem from="1608126142316" duration="6696000" />
+    </task>
+    <task id="LOCAL-00001" summary="g">
+      <created>1606857453164</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606857453164</updated>
+    </task>
+    <task id="LOCAL-00002" summary="g">
+      <created>1606859790980</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606859790980</updated>
+    </task>
+    <task id="LOCAL-00003" summary="g">
+      <created>1608048729868</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1608048729868</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Wer das liest ist doof">
+      <created>1608127384389</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1608127384389</updated>
+    </task>
+    <task id="LOCAL-00005" summary=".">
+      <created>1608131797039</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1608131797039</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/dm" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="g" />
+    <MESSAGE value="Wer das liest ist doof" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="137" y="0" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608130914862">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="0" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1608130914862" />
+    <state x="488" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1608128459203">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="488" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1608128459203" />
+    <state width="1323" height="154" key="GridCell.Tab.0.bottom" timestamp="1608132888876">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1608132888876" />
+    <state width="1323" height="154" key="GridCell.Tab.0.center" timestamp="1608132888876">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1608132888876" />
+    <state width="1323" height="154" key="GridCell.Tab.0.left" timestamp="1608132888876">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1608132888876" />
+    <state width="1323" height="154" key="GridCell.Tab.0.right" timestamp="1608132888876">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1608132888876" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1607050210987">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1607050210987" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1607050210986">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1607050210986" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1607050210986">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1607050210986" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1607050210986">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1607050210986" />
+    <state x="-113" y="18" width="1347" height="618" key="MergeDialog" timestamp="1608132865501">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="-113" y="18" width="1347" height="618" key="MergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1608132865501" />
+    <state x="275" y="84" key="Vcs.Push.Dialog.v2" timestamp="1608131798175">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="84" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1608131798175" />
+    <state x="448" y="77" key="git4idea.branch.GitSmartOperationDialog" timestamp="1608132835723">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="448" y="77" key="git4idea.branch.GitSmartOperationDialog/0.0.1366.728@0.0.1366.728" timestamp="1608132835723" />
+    <state x="339" y="162" key="run.anything.popup" timestamp="1608038049359">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1608038049359" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/compiler_for_spl$Main.ic" NAME="Main Coverage Results" MODIFIED="1606859140271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>de.thm.mni.compilerbau.*</FILTER>
+    </SUITE>
+  </component>
+</project>
